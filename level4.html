@@ -97,7 +97,7 @@
     <script>
         function checkPassword() {
             var password = document.getElementById("password").value;
-            if (password === "spark999") {
+            if (password === "lichtlfinal") {
                 document.getElementById("content").style.display = "block";
                 document.getElementById("login").style.display = "none";
                 startMoving(); // Bewegung starten, sobald das Passwort korrekt ist!
@@ -108,7 +108,7 @@
 
         let clicks = 0;
         let maxClicks = 6;
-        let boxSize = 100;
+        let boxSize = 60;
         let speed = 1500;
         let gameActive = true;
         let moveInterval; // Speichert das Intervall
@@ -141,10 +141,10 @@
 
             let box = document.getElementById("moving-box");
             clicks++;
-            boxSize *= 0.8;
+            //boxSize *= 0.8;
             speed *= 0.85;
 
-            if (boxSize < 2) boxSize = 2;
+            //if (boxSize < 2) boxSize = 2;
             if (speed < 50) speed = 50;
 
             box.style.width = boxSize + "px";
@@ -173,8 +173,8 @@
     </div>
 
     <div id="content">
-        <h1>Catch the Box!</h1>
-        <p>Klicke den Kasten, bevor er zu klein und zu schnell wird!</p>
+        <h1>Catch me if you can!</h1>
+        <p>Klicke den Kasten 7 Mal, bevor er zu schnell wird!</p>
 
         <div id="game-container">
             <div id="moving-box" onclick="shrinkAndSpeedUp()"></div>
