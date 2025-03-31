@@ -98,17 +98,15 @@
 <body>
     <!-- Passwortschutz -->
     <div id="login">
-        <h2>ACCESS REQUIRED</h2>
-        <p>ENTER PASSWORD: <span class="cursor"></span></p>
+        <h2>Level 2</h2>
+        <p>Nur die <span class="blink">Elite</span> kennt das Passwort um fortzufahren:</p>
         <input type="password" id="password">
-        <br>
-        <button onclick="checkPassword()">CONFIRM</button>
-        <p id="error-message">ACCESS DENIED!</p>
+        <button onclick="checkPassword()">Bestätigen</button>
     </div>
 
     <div id="content" style="display:none;">
-        <h1>POP QUIZ - Level 4</h1>
-        <p>Finales Rätsel! Beantworte alle Fragen korrekt oder... GAME OVER.</p>
+        <h1>POP QUIZ - Level 1</h1>
+        <p>Beantworte alle Fragen korrekt oder... GAME OVER.</p>
 
         <div class="questions">
             <div class="question-item">
@@ -153,7 +151,7 @@
 
         <div id="result">
             <h3>█▓▒░ PASSWORD UNLOCKED ░▒▓█</h3>
-            <p>Finales Passwort: <b>FinalLichtl</b></p>
+            <p>Das nächste Passwort lautet: <b>lichtl123</b></p>
             <a href="level2.html">PROCEED</a>
         </div>
     </div>
