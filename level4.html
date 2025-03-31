@@ -17,52 +17,6 @@
             text-shadow: 0 0 5px #00FF00, 0 0 10px #00FF00;
         }
 
-        @keyframes blinkCursor {
-            50% { opacity: 0; }
-        }
-
-        .blinking-cursor::after {
-            content: "|";
-            display: inline-block;
-            animation: blinkCursor 0.8s infinite;
-        }
-
-        #login {
-            margin-top: 20vh;
-        }
-
-        #password {
-            background: black;
-            border: 2px solid #00FF00;
-            color: #00FF00;
-            font-size: 1.5em;
-            font-family: "Courier New", monospace;
-            padding: 5px;
-            text-align: center;
-            width: 250px;
-            display: inline-block;
-        }
-
-        #password:focus {
-            outline: none;
-        }
-
-        button {
-            background: black;
-            border: 2px solid #00FF00;
-            color: #00FF00;
-            font-size: 1.5em;
-            padding: 5px 15px;
-            font-family: "Courier New", monospace;
-            cursor: pointer;
-            display: inline-block;
-        }
-
-        button:hover {
-            background: #00FF00;
-            color: black;
-        }
-
         #game-container {
             position: relative;
             width: 100vw;
@@ -71,58 +25,31 @@
 
         #moving-box {
             position: absolute;
-            width: 60px;
-            height: 60px;
+            width: 100px;
+            height: 100px;
             background-color: #00FF00;
             cursor: pointer;
             transition: transform 0.2s;
         }
 
-        #password-display {
+        #password-display, #proceed-button {
             display: none;
             margin-top: 20px;
             font-size: 2em;
             text-shadow: 0 0 10px #00FF00;
         }
-
-        #proceed-button {
-            display: none;
-            margin-top: 20px;
-            font-size: 1.5em;
-            background: black;
-            border: 2px solid #00FF00;
-            color: #00FF00;
-            padding: 10px 20px;
-            cursor: pointer;
-        }
-
-        #proceed-button:hover {
-            background: #00FF00;
-            color: black;
-        }
     </style>
     <script>
         let clicks = 0;
         let maxClicks = 6;
+        let boxSize = 100;
         let speed = 1500;
-        let gameActive = false;
-        let moveInterval;
-        let box;
-
-        function checkPassword() {
-            var password = document.getElementById("password").value;
-            if (password === "spark999") {
-                document.getElementById("content").style.display = "block";
-                document.getElementById("login").style.display = "none";
-                startMoving();
-            } else {
-                alert("ACCESS DENIED!");
-            }
-        }
+        let gameActive = true;
+        let box = null;
 
         function getRandomPosition() {
-            let maxX = window.innerWidth - 60;
-            let maxY = window.innerHeight - 60;
+            let maxX = window.innerWidth - boxSize;
+            let maxY = window.innerHeight - boxSize;
             return { x: Math.random() * maxX, y: Math.random() * maxY };
         }
 
@@ -130,56 +57,50 @@
             if (!gameActive) return;
             let pos = getRandomPosition();
             box.style.transform = `translate(${pos.x}px, ${pos.y}px)`;
+            setTimeout(moveBox, speed);
         }
 
-        function startMoving() {
-            box = document.getElementById("moving-box");
-            gameActive = true;
-            moveInterval = setInterval(moveBox, speed);
-        }
-
-        function speedUp() {
+        function shrinkAndSpeedUp() {
             if (!gameActive) return;
             clicks++;
+            boxSize *= 0.8;
             speed *= 0.85;
+            box.style.width = boxSize + "px";
+            box.style.height = boxSize + "px";
             
-            if (speed < 50) speed = 50;
-
             if (clicks >= maxClicks) {
                 gameActive = false;
-                clearInterval(moveInterval);
                 box.style.display = "none";
                 document.getElementById("password-display").style.display = "block";
-                document.getElementById("password-display").innerHTML = "█▓▒░ PASSWORD UNLOCKED ░▒▓█: <b>FinalLichtl</b>";
                 document.getElementById("proceed-button").style.display = "inline-block";
-            } else {
-                clearInterval(moveInterval);
-                moveInterval = setInterval(moveBox, speed);
             }
         }
-        
-        window.onload = function() {
+
+        function startGame() {
+            document.getElementById("content").style.display = "block";
+            document.getElementById("login").style.display = "none";
             box = document.getElementById("moving-box");
-        };
+            moveBox();
+        }
     </script>
 </head>
 <body>
     <div id="login">
         <h2>Level 4</h2>
         <p>Gib das Passwort ein, um fortzufahren:</p>
-        <input type="password" id="password" class="blinking-cursor">
-        <button onclick="checkPassword()">Bestätigen</button>
+        <input type="password" id="password">
+        <button onclick="if (document.getElementById('password').value === 'lichtlfinal') startGame(); else alert('ACCESS DENIED!');">Bestätigen</button>
     </div>
 
     <div id="content" style="display: none;">
         <h1>Catch the Box!</h1>
-        <p>Klicke die Box, bevor sie zu schnell wird!</p>
+        <p>Klicke den Kasten, bevor er zu klein und zu schnell wird!</p>
 
         <div id="game-container">
-            <div id="moving-box" onclick="speedUp()"></div>
+            <div id="moving-box" onclick="shrinkAndSpeedUp()"></div>
         </div>
 
-        <p id="password-display"></p>
+        <p id="password-display">█▓▒░ PASSWORD UNLOCKED ░▒▓█: <b>Highscore</b></p>
         <button id="proceed-button" onclick="window.location.href='score.html'">PROCEED</button>
     </div>
 </body>
