@@ -3,88 +3,186 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mini Game</title>
+    <title>Level 4 - Hack the System</title>
     <style>
         body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #282c34;
-            color: white;
-            font-family: Arial, sans-serif;
-            flex-direction: column;
-        }
-        #gameContainer {
-            position: relative;
-            width: 500px;
-            height: 500px;
-            border: 2px solid white;
+            background-color: black;
+            color: #00FF00;
+            font-family: "Courier New", monospace;
+            text-align: center;
             overflow: hidden;
         }
-        #box {
+
+        h1, h2, p {
+            text-shadow: 0 0 5px #00FF00, 0 0 10px #00FF00;
+        }
+
+        #login {
+            margin-top: 20vh;
+        }
+
+        #password {
+            background: black;
+            border: 2px solid #00FF00;
+            color: #00FF00;
+            font-size: 1.5em;
+            font-family: "Courier New", monospace;
+            padding: 5px;
+            text-align: center;
+            width: 250px;
+            display: inline-block;
+        }
+
+        #password:focus {
+            outline: none;
+        }
+
+        button {
+            background: black;
+            border: 2px solid #00FF00;
+            color: #00FF00;
+            font-size: 1.5em;
+            padding: 5px 15px;
+            font-family: "Courier New", monospace;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        button:hover {
+            background: #00FF00;
+            color: black;
+        }
+
+        @keyframes blinkCursor {
+            50% { border-color: transparent; }
+        }
+
+        .blinking-cursor::after {
+            content: "|";
+            display: inline-block;
+            animation: blinkCursor 0.8s infinite;
+        }
+
+        #content {
+            display: none;
+        }
+
+        #game-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        #moving-box {
             position: absolute;
             width: 100px;
             height: 100px;
-            background-color: red;
+            background-color: #00FF00;
             cursor: pointer;
+            transition: width 0.1s, height 0.1s, left 0.2s, top 0.2s;
         }
-        #message {
+
+        #password-display {
             display: none;
-            text-align: center;
+            font-size: 2em;
+            text-shadow: 0 0 10px #00FF00;
+            margin-top: 20px;
+        }
+
+        #proceed-button {
+            display: none;
+            margin-top: 20px;
         }
     </style>
-</head>
-<body>
-    <div id="gameContainer">
-        <div id="box"></div>
-    </div>
-    <div id="message">
-        <h2>Herzlichen Glückwunsch! Das Passwort lautet: <strong>FinalLichtl</strong></h2>
-        <a href="score.html"><button>Weiter</button></a>
-    </div>
     <script>
-        const box = document.getElementById("box");
-        const gameContainer = document.getElementById("gameContainer");
-        const message = document.getElementById("message");
-        let size = 100;
-        let speed = 1000;
+        function checkPassword() {
+            var password = document.getElementById("password").value;
+            if (password === "spark999") {
+                document.getElementById("content").style.display = "block";
+                document.getElementById("login").style.display = "none";
+                startMoving(); // Bewegung starten, sobald das Passwort korrekt ist!
+            } else {
+                alert("ACCESS DENIED!");
+            }
+        }
+
         let clicks = 0;
-        let interval;
+        let maxClicks = 6;
+        let boxSize = 100;
+        let speed = 1500;
+        let gameActive = true;
+        let moveInterval; // Speichert das Intervall
+
+        function getRandomPosition() {
+            let maxX = window.innerWidth - boxSize;
+            let maxY = window.innerHeight - boxSize;
+            let x = Math.random() * maxX;
+            let y = Math.random() * maxY;
+            return { x, y };
+        }
 
         function moveBox() {
-            if (clicks >= 6) return;
-            const maxX = gameContainer.clientWidth - size;
-            const maxY = gameContainer.clientHeight - size;
-            const x = Math.random() * maxX;
-            const y = Math.random() * maxY;
-            box.style.transform = `translate(${x}px, ${y}px)`;
+            if (!gameActive) return; // Falls das Spiel vorbei ist, wird nichts mehr gemacht
+            
+            let box = document.getElementById("moving-box");
+            let pos = getRandomPosition();
+            box.style.left = pos.x + "px";
+            box.style.top = pos.y + "px";
         }
 
-        function endGame() {
-            clearInterval(interval);
-            box.style.display = "none";
-            message.style.display = "block";
+        // Startet das sich wiederholende Bewegen
+        function startMoving() {
+            moveInterval = setInterval(moveBox, speed);
         }
 
-        function clickBox() {
-            if (clicks >= 6) return; // Verhindert zusätzliche Klicks nach Spielende
+        // Wird bei jedem Klick ausgeführt
+        function shrinkAndSpeedUp() {
+            if (!gameActive) return;
+
+            let box = document.getElementById("moving-box");
             clicks++;
-            if (clicks >= 6) {
-                endGame();
-                return;
-            }
-            size = Math.max(size * 0.75, 20); // Verkleinerung langsamer und Mindestgröße 20px
-            speed = Math.max(speed * 0.9, 200); // Geschwindigkeit weniger radikal erhöhen
-            box.style.width = `${size}px`;
-            box.style.height = `${size}px`;
-            moveBox();
-            clearInterval(interval);
-            interval = setInterval(moveBox, speed);
-        }
+            boxSize *= 0.8;
+            speed *= 0.85;
 
-        box.addEventListener("click", clickBox);
-        interval = setInterval(moveBox, speed);
+            if (boxSize < 2) boxSize = 2;
+            if (speed < 50) speed = 50;
+
+            box.style.width = boxSize + "px";
+            box.style.height = boxSize + "px";
+
+            if (clicks >= maxClicks) {
+                gameActive = false;  // Stoppt das Spiel
+                clearInterval(moveInterval);  // Stoppt die Bewegung
+                box.style.display = "none";
+                document.getElementById("password-display").style.display = "block";
+                document.getElementById("password-display").innerHTML = "█▓▒░ PASSWORD UNLOCKED ░▒▓█: <b>FinalLichtl</b>";
+                document.getElementById("proceed-button").style.display = "inline-block"; // Zeigt den Button an
+            } else {
+                clearInterval(moveInterval); // Stoppe das alte Intervall
+                moveInterval = setInterval(moveBox, speed); // Starte ein neues mit schnellerer Geschwindigkeit
+            }
+        }
     </script>
+</head>
+<body>
+    <div id="login">
+        <h2>Level 4</h2>
+        <p>Gib das Passwort ein, um fortzufahren:</p>
+        <input type="password" id="password" class="blinking-cursor">
+        <button onclick="checkPassword()">Bestätigen</button>
+    </div>
+
+    <div id="content">
+        <h1>Catch the Box!</h1>
+        <p>Klicke den Kasten, bevor er zu klein und zu schnell wird!</p>
+
+        <div id="game-container">
+            <div id="moving-box" onclick="shrinkAndSpeedUp()"></div>
+        </div>
+
+        <p id="password-display"></p>
+
+        <button id="proceed-button" onclick="window.location.href='score.html'">PROCEED</button>
+    </div>
 </body>
 </html>
