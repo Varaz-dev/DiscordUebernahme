@@ -2,60 +2,148 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>Level 3</title>
+    <title>Level 3 – ACCESS REQUIRED</title>
     <style>
-        body { text-align: center; font-family: Arial, sans-serif; }
-        .hidden { display: none; } /* Standardmäßig verstecken */
-        .wimmelbild-container { position: relative; display: inline-block; }
+        /* TERMINAL STYLE */
+        body {
+            background-color: black;
+            color: #00FF00;
+            font-family: "Courier New", monospace;
+            text-align: center;
+        }
+
+        h2, p {
+            text-shadow: 0 0 5px #00FF00;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* BLINKENDER CURSOR */
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        .cursor::after {
+            content: "_";
+            animation: blink 0.8s infinite;
+        }
+
+        /* TERMINAL INPUT STYLE */
+        input[type="password"] {
+            background: black;
+            border: 1px solid #00FF00;
+            color: #00FF00;
+            font-size: 20px;
+            font-family: "Courier New", monospace;
+            text-align: center;
+            padding: 5px;
+            outline: none;
+            width: 200px;
+        }
+
+        button {
+            background: black;
+            border: 1px solid #00FF00;
+            color: #00FF00;
+            font-size: 18px;
+            font-family: "Courier New", monospace;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #00FF00;
+            color: black;
+        }
+
+        .wimmelbild-container {
+            position: relative;
+            display: inline-block;
+            border: 2px solid #00FF00;
+            padding: 10px;
+            box-shadow: 0 0 10px #00FF00;
+        }
+
+        /* HACKER HOTSPOTS */
         .hotspot {
             position: absolute;
-            width: 40px; height: 40px;
-            /* background-color: rgba(255, 0, 0, 0.3); /* Leicht sichtbar für Tests */
+            width: 40px;
+            height: 40px;
+            background-color: rgba(0, 255, 0, 0.3);
             border-radius: 50%;
-            cursor: default;
+            cursor: pointer;
+            transition: 0.2s;
         }
+
+        .hotspot:hover {
+            background-color: rgba(0, 255, 0, 0.6);
+        }
+
+        .hotspot.found {
+            background-color: transparent;
+            pointer-events: none;
+        }
+
         #passwort {
             display: none;
-            font-size: 20px;
+            font-size: 22px;
+            font-weight: bold;
+            color: #00FF00;
             margin-top: 20px;
-            color: green;
+            text-shadow: 0 0 5px #00FF00;
         }
+
+        .next-level {
+            display: inline-block;
+            margin-top: 20px;
+            font-size: 18px;
+            text-decoration: none;
+            color: #00FF00;
+            border: 1px solid #00FF00;
+            padding: 5px 10px;
+            box-shadow: 0 0 5px #00FF00;
+        }
+
+        .next-level:hover {
+            background: #00FF00;
+            color: black;
+        }
+
     </style>
     <script>
         function checkPassword() {
             var password = document.getElementById("password").value;
             if (password === "spark999") {
-                document.getElementById("content").style.display = "block"; // Zeigt das Wimmelbild
-                document.getElementById("login").style.display = "none"; // Versteckt die Passwortabfrage
+                document.getElementById("content").style.display = "block";
+                document.getElementById("login").style.display = "none";
             } else {
-                alert("Falsches Passwort!");
+                alert("ACCESS DENIED!");
             }
         }
 
         let gefunden = 0;
         function hotspotGefunden(element) {
-            element.style.backgroundColor = "transparent"; // Hotspot unsichtbar machen
-            element.style.pointerEvents = "none"; // Klick deaktivieren
+            element.classList.add("found"); 
             gefunden++;
 
-            if (gefunden === 3) { // Anzahl der versteckten Spots
+            if (gefunden === 3) {
                 document.getElementById("passwort").style.display = "block";
             }
         }
     </script>
 </head>
 <body>
-    <!-- Passwortabfrage -->
     <div id="login">
-        <h2>Level 3</h2>
-        <p>Gib das Passwort ein, um fortzufahren:</p>
+        <h2>█▓▒░ SYSTEM LOGIN ░▒▓█</h2>
+        <p><span class="cursor">ENTER PASSWORD</span></p>
         <input type="password" id="password">
-        <button onclick="checkPassword()">Bestätigen</button>
+        <button onclick="checkPassword()">ACCESS</button>
     </div>
 
-    <!-- Wimmelbild-Minigame (Startet versteckt) -->
     <div id="content" class="hidden">
-        <h2>Willkommen in Level 3!</h2>
+        <h2>█▓▒░ WELCOME TO LEVEL 3 ░▒▓█</h2>
         <p>Finde alle versteckten Schokohasen!</p>
 
         <div class="wimmelbild-container">
@@ -65,10 +153,8 @@
             <div class="hotspot" style="top: 31%; left: 30%;" onclick="hotspotGefunden(this)"></div>
         </div>
         
-        <br>
-        <p id="passwort">Passwort für Level 4: <strong>lichtlfinal</strong></p>
-        <a href="level4.html">Weiter zu Level 4</a>
-        
+        <p id="passwort">█▓▒░ PASSWORD UNLOCKED: <strong>lichtlfinal</strong> ░▒▓█</p>
+        <a href="level4.html" class="next-level">NEXT LEVEL →</a>
     </div>
 </body>
 </html>
