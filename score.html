@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teilnehmerliste - Hack the System</title>
+    <style>
+        body {
+            background-color: black;
+            color: #00FF00;
+            font-family: "Courier New", monospace;
+            text-align: center;
+        }
+
+        h1, h2 {
+            text-shadow: 0 0 5px #00FF00, 0 0 10px #00FF00;
+        }
+
+        table {
+            width: 60%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 2px solid #00FF00;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background: #002200;
+        }
+
+        input, button {
+            background: black;
+            border: 2px solid #00FF00;
+            color: #00FF00;
+            font-size: 1.2em;
+            font-family: "Courier New", monospace;
+            padding: 5px;
+            margin: 10px;
+        }
+
+        button:hover {
+            background: #00FF00;
+            color: black;
+        }
+
+        #warning {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>█▓▒░ TEILNEHMERLISTE ░▒▓█</h1>
+
+    <p>Trage deinen Namen ein und verewige dich!</p>
+    <input type="text" id="username" placeholder="Dein Name">
+    <button onclick="saveName()">Speichern</button>
+    <p id="warning"></p>
+
+    <h2>🔥 Die Teilnehmer 🔥</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody id="name-list">
+            <!-- Namen werden hier eingefügt -->
+        </tbody>
+    </table>
+
+    <button onclick="resetList()">Liste zurücksetzen</button>
+
+    <script>
+        function saveName() {
+            let name = document.getElementById("username").value.trim();
+            let warning = document.getElementById("warning");
+
+            if (!name) {
+                warning.textContent = "Bitte einen gültigen Namen eingeben!";
+                return;
+            }
+
+            // Überprüfen, ob User schon eingetragen ist
+            if (localStorage.getItem("submitted")) {
+                warning.textContent = "Du hast dich bereits verewigt!";
+                return;
+            }
+
+            // Namen speichern
+            let names = JSON.parse(localStorage.getItem("participants")) || [];
+            names.push(name);
+
+            localStorage.setItem("participants", JSON.stringify(names));
+            localStorage.setItem("submitted", "true"); // Merken, dass der User gespeichert hat
+
+            loadNames();
+        }
+
+        function loadNames() {
+            let names = JSON.parse(localStorage.getItem("participants")) || [];
+            let list = document.getElementById("name-list");
+            list.innerHTML = "";
+
+            names.forEach((entry, index) => {
+                let row = `<tr>
+                    <td>#${index + 1}</td>
+                    <td>${entry}</td>
+                </tr>`;
+                list.innerHTML += row;
+            });
+        }
+
+        function resetList() {
+            localStorage.removeItem("participants");
+            localStorage.removeItem("submitted");
+            loadNames();
+        }
+
+        // Laden der Teilnehmerliste beim Start
+        loadNames();
+    </script>
+</body>
+</html>
