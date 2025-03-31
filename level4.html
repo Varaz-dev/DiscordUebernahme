@@ -1,4 +1,95 @@
-<script>
+<!-- Level 4 mit Passwortschutz -->
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level 4 - Hack the System</title>
+    <style>
+        body {
+            background-color: black;
+            color: #00FF00;
+            font-family: "Courier New", monospace;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        h1, h2, p {
+            text-shadow: 0 0 5px #00FF00, 0 0 10px #00FF00;
+        }
+
+        #login {
+            margin-top: 20vh;
+        }
+
+        #password {
+            background: black;
+            border: 2px solid #00FF00;
+            color: #00FF00;
+            font-size: 1.5em;
+            font-family: "Courier New", monospace;
+            padding: 5px;
+            text-align: center;
+            width: 250px;
+            display: inline-block;
+        }
+
+        #password:focus {
+            outline: none;
+        }
+
+        button {
+            background: black;
+            border: 2px solid #00FF00;
+            color: #00FF00;
+            font-size: 1.5em;
+            padding: 5px 15px;
+            font-family: "Courier New", monospace;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        button:hover {
+            background: #00FF00;
+            color: black;
+        }
+
+        @keyframes blinkCursor {
+            50% { border-color: transparent; }
+        }
+
+        .blinking-cursor::after {
+            content: "|";
+            display: inline-block;
+            animation: blinkCursor 0.8s infinite;
+        }
+
+        #content {
+            display: none;
+        }
+
+        #game-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        #moving-box {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background-color: #00FF00;
+            cursor: pointer;
+            transition: width 0.1s, height 0.1s, left 0.2s, top 0.2s;
+        }
+
+        #password-display {
+            display: none;
+            font-size: 2em;
+            text-shadow: 0 0 10px #00FF00;
+        }
+    </style>
+    <script>
     function checkPassword() {
         var password = document.getElementById("password").value;
         if (password === "lichtlfinal") {
@@ -58,3 +149,28 @@
         }
     }
 </script>
+
+</head>
+<body>
+    <div id="login">
+        <h2>Level 4</h2>
+        <p>Gib das Passwort ein, um fortzufahren:</p>
+        <input type="password" id="password" class="blinking-cursor">
+        <button onclick="checkPassword()">Bestätigen</button>
+    </div>
+
+    <div id="content">
+        <h1>Catch the Box!</h1>
+        <p>Klicke den Kasten, bevor er zu klein und zu schnell wird!</p>
+
+        <div id="game-container">
+            <div id="moving-box" onclick="shrinkAndSpeedUp()"></div>
+        </div>
+
+        <p id="password-display">█▓▒░ PASSWORD UNLOCKED ░▒▓█: <b>Highscore</b></p>
+    </div>
+    <br>
+    <a href="score.html">PROCEED</a>
+
+</body>
+</html>
