@@ -1,9 +1,110 @@
-<!-- Level 5 mit Passwortschutz -->
 <!DOCTYPE html>
-<html>
+<html lang="de">
 <head>
-    <title>Level 5</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level 5 mit Kreuzworträtsel</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2em;
+            margin-top: 20px;
+        }
+
+        #crossword {
+            display: inline-block;
+            margin: 20px;
+            border: 2px solid #000;
+        }
+
+        table {
+            border-collapse: collapse;
+            margin: 20px auto;
+        }
+
+        td {
+            padding: 10px;
+            border: 1px solid #000;
+        }
+
+        input[type="text"] {
+            text-align: center;
+            font-size: 1.5em;
+            width: 50px;
+            height: 50px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            cursor: pointer;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 1.5em;
+        }
+
+        #login {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        #content {
+            display: none;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Passwortschutz -->
+    <div id="login">
+        <h2>Level 5</h2>
+        <p>Gib das Passwort ein, um fortzufahren:</p>
+        <input type="password" id="password">
+        <button onclick="checkPassword()">Bestätigen</button>
+    </div>
+
+    <div id="content" style="display:none;">
+        <h1>Kreuzworträtsel - Level 1</h1>
+        <p>Vervollständige das Kreuzworträtsel, um das Letzte Passwort zu erhalten!</p>
+
+        <div id="crossword">
+            <table>
+                <tr>
+                    <td id="1" data-answer="newyork"><input type="text" maxlength="8" id="1A" class="crossword-input" /></td>
+                    <td id="2" data-answer="krypton"><input type="text" maxlength="7" id="2A" class="crossword-input" /></td>
+                    <td id="3" data-answer="rhydon"><input type="text" maxlength="6" id="3A" class="crossword-input" /></td>
+                </tr>
+                <tr>
+                    <td id="4" data-answer="adamantium"><input type="text" maxlength="10" id="4A" class="crossword-input" /></td>
+                    <td id="5" data-answer="hylia"><input type="text" maxlength="5" id="5A" class="crossword-input" /></td>
+                    <td id="6" data-answer="mithril"><input type="text" maxlength="7" id="6A" class="crossword-input" /></td>
+                </tr>
+                <tr>
+                    <td id="7" data-answer="kupo"><input type="text" maxlength="4" id="7A" class="crossword-input" /></td>
+                    <td id="8" data-answer="vesemir"><input type="text" maxlength="7" id="8A" class="crossword-input" /></td>
+                    <td id="9" data-answer="ironmoose"><input type="text" maxlength="10" id="9A" class="crossword-input" /></td>
+                </tr>
+            </table>
+        </div>
+
+        <button onclick="checkAnswers()">Überprüfen</button>
+
+        <div id="result" style="display:none;">
+            <h3>Rätsel Gelöst!</h3>
+            <p>Das Passwort für Level 2 lautet: <b>FinalLichtl</b></p>
+            <a href="level2.html">Weiter zu Level 2</a>
+        </div>
+    </div>
+
     <script>
+        // Passwortschutz
         function checkPassword() {
             var password = document.getElementById("password").value;
             if (password === "lichtlfinal") {
@@ -13,18 +114,36 @@
                 alert("Falsches Passwort!");
             }
         }
+
+        // Kreuzworträtsel überprüfen
+        function checkAnswers() {
+            const answers = {
+                1: "newyork",
+                2: "krypton",
+                3: "rhydon",
+                4: "adamantium",
+                5: "hylia",
+                6: "mithril",
+                7: "kupo",
+                8: "vesemir",
+                9: "ironmoose"
+            };
+
+            let correctAnswers = 0;
+
+            for (let i = 1; i <= 9; i++) {
+                const userAnswer = document.getElementById(i + "A").value.toLowerCase();
+                if (userAnswer === answers[i]) {
+                    correctAnswers++;
+                }
+            }
+
+            if (correctAnswers === 9) {
+                document.getElementById("result").style.display = "block";
+            } else {
+                alert("Einige Antworten sind noch falsch. Versuche es noch einmal.");
+            }
+        }
     </script>
-</head>
-<body>
-    <div id="login">
-        <h2>Level 5</h2>
-        <p>Gib das Passwort ein, um fortzufahren:</p>
-        <input type="password" id="password">
-        <button onclick="checkPassword()">Bestätigen</button>
-    </div>
-    <div id="content" style="display:none;">
-        <h2>Glückwunsch! Du hast alle Level gemeistert!</h2>
-        <p>Hier könnte eine Überraschung stehen 🎉</p>
-    </div>
 </body>
 </html>
