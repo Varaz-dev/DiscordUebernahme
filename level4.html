@@ -1,1 +1,130 @@
-<!DOCTYPE html> <html lang="de"> <head>     <meta charset="UTF-8">     <meta name="viewport" content="width=device-width, initial-scale=1.0">     <title>Mini Game</title>     <style>         body {             display: flex;             justify-content: center;             align-items: center;             height: 100vh;             background-color: #282c34;             color: white;             font-family: Arial, sans-serif;             flex-direction: column;         }         #gameContainer {             position: relative;             width: 500px;             height: 500px;             border: 2px solid white;             overflow: hidden;         }         #box {             position: absolute;             width: 100px;             height: 100px;             background-color: red;             cursor: pointer;         }         #message {             display: none;             text-align: center;         }     </style> </head> <body>     <div id="gameContainer">         <div id="box"></div>     </div>     <div id="message">         <h2>Herzlichen Glückwunsch! Das Passwort lautet: <strong>FinalLichtl</strong></h2>         <a href="score.html"><button>Weiter</button></a>     </div>     <script>         const box = document.getElementById("box");         const gameContainer = document.getElementById("gameContainer");         const message = document.getElementById("message");         let size = 100;         let speed = 1000;         let clicks = 0;         let interval;          function moveBox() {             if (clicks >= 6) return;             const maxX = gameContainer.clientWidth - size;             const maxY = gameContainer.clientHeight - size;             const x = Math.random() * maxX;             const y = Math.random() * maxY;             box.style.transform = translate(${x}px, ${y}px);         }          function endGame() {             clearInterval(interval);             box.style.display = "none";             message.style.display = "block";         }          function clickBox() {             if (clicks >= 6) return; // Verhindert zusätzliche Klicks nach Spielende             clicks++;             if (clicks >= 6) {                 endGame();                 return;             }             size = Math.max(size * 0.75, 20); // Verkleinerung langsamer und Mindestgröße 20px             speed = Math.max(speed * 0.9, 200); // Geschwindigkeit weniger radikal erhöhen             box.style.width = ${size}px;             box.style.height = ${size}px;             moveBox();             clearInterval(interval);             interval = setInterval(moveBox, speed);         }          box.addEventListener("click", clickBox);         interval = setInterval(moveBox, speed);     </script> </body> </html>
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Game</title>
+    <style>
+        /* TERMINAL STYLE */
+        body {
+            background-color: black;
+            color: #00FF00;
+            font-family: "Courier New", monospace;
+            text-align: center;
+        }
+
+        h2, p {
+            text-shadow: 0 0 5px #00FF00;
+        }
+
+        /* Spielfeld */
+        #gameContainer {
+            position: relative;
+            width: 500px;
+            height: 500px;
+            border: 2px solid #00FF00;
+            overflow: hidden;
+            box-shadow: 0 0 10px #00FF00;
+        }
+
+        /* Bewegliches Objekt */
+        #box {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background-color: #FF0000;
+            cursor: pointer;
+            box-shadow: 0 0 10px #FF0000;
+            transition: transform 0.2s ease;
+        }
+
+        /* Erfolgsnachricht */
+        #message {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        button {
+            background: black;
+            border: 1px solid #00FF00;
+            color: #00FF00;
+            font-size: 18px;
+            font-family: "Courier New", monospace;
+            padding: 5px 10px;
+            cursor: pointer;
+            box-shadow: 0 0 5px #00FF00;
+        }
+
+        button:hover {
+            background: #00FF00;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <h2>█▓▒░ MINI GAME ░▒▓█</h2>
+    <p>Klicke auf das rote Quadrat, um es zu verkleinern. Schaffst du es 6 Mal?</p>
+    
+    <div id="gameContainer">
+        <div id="box"></div>
+    </div>
+    
+    <div id="message">
+        <h2>█▓▒░ Herzlichen Glückwunsch! ░▒▓█</h2>
+        <p>Das Passwort lautet: <strong>FinalLichtl</strong></p>
+        <a href="score.html"><button>Weiter</button></a>
+    </div>
+
+    <script>
+        const box = document.getElementById("box");
+        const gameContainer = document.getElementById("gameContainer");
+        const message = document.getElementById("message");
+        
+        let size = 100;
+        let speed = 1000;
+        let clicks = 0;
+        let interval;
+
+        function moveBox() {
+            if (clicks >= 6) return;
+            
+            const maxX = gameContainer.clientWidth - size;
+            const maxY = gameContainer.clientHeight - size;
+            const x = Math.random() * maxX;
+            const y = Math.random() * maxY;
+            
+            box.style.transform = `translate(${x}px, ${y}px)`;
+        }
+
+        function endGame() {
+            clearInterval(interval);
+            box.style.display = "none";
+            message.style.display = "block";
+        }
+
+        function clickBox() {
+            if (clicks >= 6) return;
+            
+            clicks++;
+            if (clicks >= 6) {
+                endGame();
+                return;
+            }
+            
+            size = Math.max(size * 0.75, 20);
+            speed = Math.max(speed * 0.9, 200);
+            
+            box.style.width = `${size}px`;
+            box.style.height = `${size}px`;
+            
+            moveBox();
+            clearInterval(interval);
+            interval = setInterval(moveBox, speed);
+        }
+
+        box.addEventListener("click", clickBox);
+        interval = setInterval(moveBox, speed);
+    </script>
+</body>
+</html>
