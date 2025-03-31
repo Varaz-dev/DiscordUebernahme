@@ -8,18 +8,57 @@
     <style>
         body {
             text-align: center;
-            font-family: Arial, sans-serif;
+            font-family: "Courier New", monospace;
+            background-color: black;
+            color: #00FF00;
         }
+
         .hidden {
             display: none;
         }
+
         canvas {
             background-color: black;
+            border: 2px solid #00FF00;
         }
+
+        input, button {
+            background-color: black;
+            color: #00FF00;
+            border: 1px solid #00FF00;
+            font-family: "Courier New", monospace;
+            padding: 5px;
+        }
+
+        button:hover {
+            background-color: #00FF00;
+            color: black;
+        }
+
+        a {
+            color: #00FF00;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
         #password-reveal {
             font-size: 20px;
             font-weight: bold;
             color: red;
+        }
+
+        /* Blinker-Effekt für den extra Hacker-Look */
+        .blink {
+            animation: blinker 1s infinite;
+        }
+
+        @keyframes blinker {
+            50% {
+                opacity: 0;
+            }
         }
     </style>
     <script>
@@ -149,7 +188,7 @@
 <body>
     <div id="login">
         <h2>Level 1</h2>
-        <p>Nur die Elite kennt das Passwort um fortzufahren:</p>
+        <p>Nur die <span class="blink">Elite</span> kennt das Passwort um fortzufahren:</p>
         <input type="password" id="password">
         <button onclick="checkPassword()">Bestätigen</button>
     </div>
