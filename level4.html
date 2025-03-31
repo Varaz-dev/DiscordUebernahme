@@ -80,7 +80,7 @@
             height: 100px;
             background-color: #00FF00;
             cursor: pointer;
-            transition: width 0.1s, height 0.1s;
+            transition: width 0.1s, height 0.1s, left 0.2s, top 0.2s;
         }
 
         #password-display {
@@ -95,6 +95,7 @@
             if (password === "lichtlfinal") {
                 document.getElementById("content").style.display = "block";
                 document.getElementById("login").style.display = "none";
+                moveBox(); // Bewegung starten, sobald das Passwort korrekt ist!
             } else {
                 alert("ACCESS DENIED!");
             }
@@ -103,7 +104,7 @@
         let clicks = 0;
         let maxClicks = 15;
         let boxSize = 100;
-        let speed = 2000;
+        let speed = 1500;  // Start-Geschwindigkeit der Box
 
         function getRandomPosition() {
             let maxX = window.innerWidth - boxSize;
@@ -114,14 +115,14 @@
         }
 
         function moveBox() {
+            if (clicks >= maxClicks) return; // Stoppt die Bewegung, wenn das Spiel vorbei ist
+            
             let box = document.getElementById("moving-box");
             let pos = getRandomPosition();
             box.style.left = pos.x + "px";
             box.style.top = pos.y + "px";
 
-            if (clicks < maxClicks) {
-                setTimeout(moveBox, speed);
-            }
+            setTimeout(moveBox, speed); // Box bewegt sich erneut nach 'speed' Millisekunden
         }
 
         function shrinkAndSpeedUp() {
@@ -159,8 +160,10 @@
             <div id="moving-box" onclick="shrinkAndSpeedUp()"></div>
         </div>
 
-        <p id="password-display">█▓▒░ PASSWORD UNLOCKED ░▒▓█: <b>highscore</b></p>
+        <p id="password-display">█▓▒░ PASSWORD UNLOCKED ░▒▓█: <b>Highscore</b></p>
     </div>
+    <br>
+    <a href="score.html">PROCEED</a>
 
 </body>
 </html>
