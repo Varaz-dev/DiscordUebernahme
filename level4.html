@@ -5,49 +5,97 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mini Game</title>
     <style>
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
         body {
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #282c34;
-            color: white;
-            font-family: Arial, sans-serif;
+            background-color: black;
+            color: #00FF00;
+            font-family: "Courier New", monospace;
             flex-direction: column;
+            text-align: center;
         }
-        #gameContainer {
-            position: relative;
-            width: 500px;
-            height: 500px;
-            border: 2px solid white;
-            overflow: hidden;
+        #loginScreen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-        #box {
-            position: absolute;
-            width: 60px;
-            height: 60px;
-            background-color: red;
+        #passwordInput {
+            background: black;
+            border: none;
+            color: #00FF00;
+            font-family: "Courier New", monospace;
+            font-size: 20px;
+            padding: 10px;
+            width: 250px;
+            text-align: center;
+        }
+        #passwordInput:focus {
+            outline: none;
+        }
+        #submitButton {
+            background: black;
+            border: 2px solid #00FF00;
+            color: #00FF00;
+            font-family: "Courier New", monospace;
+            font-size: 18px;
+            padding: 10px;
+            margin-top: 10px;
             cursor: pointer;
         }
-        #message {
+        #submitButton:hover {
+            background: #00FF00;
+            color: black;
+        }
+        #accessDenied {
             display: none;
-            text-align: center;
+            color: red;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        #gameContainer, #message {
+            display: none;
+        }
+        .glow {
+            text-shadow: 0 0 10px #00FF00;
         }
     </style>
 </head>
 <body>
+    <div id="loginScreen">
+        <h1 class="glow">Terminal Access</h1>
+        <input type="password" id="passwordInput" placeholder="Enter Password..." autofocus>
+        <button id="submitButton">LOGIN</button>
+        <p id="accessDenied">ACCESS DENIED!</p>
+    </div>
     <div id="gameContainer">
         <div id="box"></div>
     </div>
     <div id="message">
-        <h2>Herzlichen Glückwunsch! Das Passwort lautet: <strong>highscore</strong></h2>
-        <a href="score.html"><button>Weiter</button></a>
+        <h2 class="glow">█▓▒░ PASSWORD UNLOCKED ░▒▓█</h2>
+        <p>Herzlichen Glückwunsch! Das Passwort lautet: <strong>FinalLichtl</strong></p>
+        <a href="score.html"><button id="submitButton">Weiter</button></a>
     </div>
     <script>
+        document.getElementById("submitButton").addEventListener("click", function() {
+            const password = document.getElementById("passwordInput").value;
+            if (password === "lichtlfinal") {
+                document.getElementById("loginScreen").style.display = "none";
+                document.getElementById("gameContainer").style.display = "block";
+            } else {
+                document.getElementById("accessDenied").style.display = "block";
+            }
+        });
+
         const box = document.getElementById("box");
         const gameContainer = document.getElementById("gameContainer");
         const message = document.getElementById("message");
-        let size = 60;
+        let size = 100;
         let speed = 1000;
         let clicks = 0;
         let interval;
@@ -68,14 +116,14 @@
         }
 
         function clickBox() {
-            if (clicks >= 6) return; // Verhindert zusätzliche Klicks nach Spielende
+            if (clicks >= 6) return;
             clicks++;
-            if (clicks == 6) {
+            if (clicks >= 6) {
                 endGame();
                 return;
             }
-            //size = Math.max(size * 0.75, 20); // Verkleinerung langsamer und Mindestgröße 20px
-            speed = Math.max(speed * 0.9, 200); // Geschwindigkeit weniger radikal erhöhen
+            size = Math.max(size * 0.75, 20);
+            speed = Math.max(speed * 0.9, 200);
             box.style.width = `${size}px`;
             box.style.height = `${size}px`;
             moveBox();
