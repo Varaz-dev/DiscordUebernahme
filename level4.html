@@ -3,105 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Level 4 - Hack the System</title>
+    <title>Mini Game</title>
     <style>
         body {
-            background-color: black;
-            color: #00FF00;
-            font-family: "Courier New", monospace;
-            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #282c34;
+            color: white;
+            font-family: Arial, sans-serif;
+            flex-direction: column;
+        }
+        #gameContainer {
+            position: relative;
+            width: 500px;
+            height: 500px;
+            border: 2px solid white;
             overflow: hidden;
         }
-
-        h1, h2, p {
-            text-shadow: 0 0 5px #00FF00, 0 0 10px #00FF00;
-        }
-
-        #game-container {
-            position: relative;
-            width: 100vw;
-            height: 100vh;
-        }
-
-        #moving-box {
+        #box {
             position: absolute;
             width: 100px;
             height: 100px;
-            background-color: #00FF00;
+            background-color: red;
             cursor: pointer;
-            transition: transform 0.2s;
         }
-
-        #password-display, #proceed-button {
+        #message {
             display: none;
-            margin-top: 20px;
-            font-size: 2em;
-            text-shadow: 0 0 10px #00FF00;
+            text-align: center;
         }
     </style>
-    <script>
-        let clicks = 0;
-        let maxClicks = 6;
-        let boxSize = 60;
-        let speed = 1500;
-        let gameActive = true;
-        let box = null;
-
-        function getRandomPosition() {
-            let maxX = window.innerWidth - boxSize;
-            let maxY = window.innerHeight - boxSize;
-            return { x: Math.random() * maxX, y: Math.random() * maxY };
-        }
-
-        function moveBox() {
-            if (!gameActive) return;
-            let pos = getRandomPosition();
-            box.style.transform = `translate(${pos.x}px, ${pos.y}px)`;
-            setTimeout(moveBox, speed);
-        }
-
-        function shrinkAndSpeedUp() {
-            if (!gameActive) return;
-            clicks++;
-            //boxSize *= 0.8;
-            speed *= 0.85;
-            box.style.width = boxSize + "px";
-            box.style.height = boxSize + "px";
-            
-            if (clicks >= maxClicks) {
-                gameActive = false;
-                box.style.display = "none";
-                document.getElementById("password-display").style.display = "block";
-                document.getElementById("proceed-button").style.display = "inline-block";
-            }
-        }
-
-        function startGame() {
-            document.getElementById("content").style.display = "block";
-            document.getElementById("login").style.display = "none";
-            box = document.getElementById("moving-box");
-            moveBox();
-        }
-    </script>
 </head>
 <body>
-    <div id="login">
-        <h2>Level 4</h2>
-        <p>Gib das Passwort ein, um fortzufahren:</p>
-        <input type="password" id="password">
-        <button onclick="if (document.getElementById('password').value === 'lichtlfinal') startGame(); else alert('ACCESS DENIED!');">Bestätigen</button>
+    <div id="gameContainer">
+        <div id="box"></div>
     </div>
-
-    <div id="content" style="display: none;">
-        <h1>Catch the Box!</h1>
-        <p>Klicke den Kasten, bevor er zu klein und zu schnell wird!</p>
-
-        <div id="game-container">
-            <div id="moving-box" onclick="shrinkAndSpeedUp()"></div>
-        </div>
-
-        <p id="password-display">█▓▒░ PASSWORD UNLOCKED ░▒▓█: <b>Highscore</b></p>
-        <button id="proceed-button" onclick="window.location.href='score.html'">PROCEED</button>
+    <div id="message">
+        <h2>Herzlichen Glückwunsch! Das Passwort lautet: <strong>FinalLichtl</strong></h2>
+        <a href="score.html"><button>Weiter</button></a>
     </div>
+    <script>
+        const box = document.getElementById("box");
+        const gameContainer = document.getElementById("gameContainer");
+        const message = document.getElementById("message");
+        let size = 100;
+        let speed = 1000;
+        let clicks = 0;
+        let interval;
+
+        function moveBox() {
+            if (clicks >= 6) return;
+            const maxX = gameContainer.clientWidth - size;
+            const maxY = gameContainer.clientHeight - size;
+            const x = Math.random() * maxX;
+            const y = Math.random() * maxY;
+            box.style.transform = `translate(${x}px, ${y}px)`;
+        }
+
+        function endGame() {
+            clearInterval(interval);
+            box.style.display = "none";
+            message.style.display = "block";
+        }
+
+        function clickBox() {
+            if (clicks >= 6) return; // Verhindert zusätzliche Klicks nach Spielende
+            clicks++;
+            if (clicks >= 6) {
+                endGame();
+                return;
+            }
+            size = Math.max(size * 0.75, 20); // Verkleinerung langsamer und Mindestgröße 20px
+            speed = Math.max(speed * 0.9, 200); // Geschwindigkeit weniger radikal erhöhen
+            box.style.width = `${size}px`;
+            box.style.height = `${size}px`;
+            moveBox();
+            clearInterval(interval);
+            interval = setInterval(moveBox, speed);
+        }
+
+        box.addEventListener("click", clickBox);
+        interval = setInterval(moveBox, speed);
+    </script>
 </body>
 </html>
