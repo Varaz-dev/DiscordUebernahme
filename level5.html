@@ -59,6 +59,18 @@
             display: none;
             margin-top: 20px;
         }
+
+        .questions {
+            font-size: 1.2em;
+            margin: 20px;
+            text-align: left;
+            max-width: 500px;
+            margin: 20px auto;
+        }
+
+        .question-item {
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 <body>
@@ -72,26 +84,45 @@
 
     <div id="content" style="display:none;">
         <h1>Kreuzworträtsel - Level 1</h1>
-        <p>Vervollständige das Kreuzworträtsel, um das Letzte Passwort zu erhalten!</p>
+        <p>Vervollständige das Kreuzworträtsel, um das Passwort für Level 2 zu bekommen!</p>
 
-        <div id="crossword">
-            <table>
-                <tr>
-                    <td id="1" data-answer="newyork"><input type="text" maxlength="8" id="1A" class="crossword-input" /></td>
-                    <td id="2" data-answer="krypton"><input type="text" maxlength="7" id="2A" class="crossword-input" /></td>
-                    <td id="3" data-answer="rhydon"><input type="text" maxlength="6" id="3A" class="crossword-input" /></td>
-                </tr>
-                <tr>
-                    <td id="4" data-answer="adamantium"><input type="text" maxlength="10" id="4A" class="crossword-input" /></td>
-                    <td id="5" data-answer="hylia"><input type="text" maxlength="5" id="5A" class="crossword-input" /></td>
-                    <td id="6" data-answer="mithril"><input type="text" maxlength="7" id="6A" class="crossword-input" /></td>
-                </tr>
-                <tr>
-                    <td id="7" data-answer="kupo"><input type="text" maxlength="4" id="7A" class="crossword-input" /></td>
-                    <td id="8" data-answer="vesemir"><input type="text" maxlength="7" id="8A" class="crossword-input" /></td>
-                    <td id="9" data-answer="ironmoose"><input type="text" maxlength="10" id="9A" class="crossword-input" /></td>
-                </tr>
-            </table>
+        <div class="questions">
+            <div class="question-item">
+                <strong>1. Welche Stadt ist das Hauptquartier der Avengers?</strong>
+                <input type="text" id="1A" maxlength="8" class="crossword-input" />
+            </div>
+            <div class="question-item">
+                <strong>2. Wie heißt der Heimatplanet von Superman?</strong>
+                <input type="text" id="2A" maxlength="7" class="crossword-input" />
+            </div>
+            <div class="question-item">
+                <strong>3. Wie heißt das erste Pokémon, das jemals entworfen wurde?</strong>
+                <input type="text" id="3A" maxlength="6" class="crossword-input" />
+            </div>
+            <div class="question-item">
+                <strong>4. Wie lautet der Name des fiktiven Metalls, aus dem Wolverines Klauen bestehen?</strong>
+                <input type="text" id="4A" maxlength="10" class="crossword-input" />
+            </div>
+            <div class="question-item">
+                <strong>5. Wie heißt die Göttin, die in The Legend of Zelda verehrt wird?</strong>
+                <input type="text" id="5A" maxlength="5" class="crossword-input" />
+            </div>
+            <div class="question-item">
+                <strong>6. Wie heißt das wertvolle Metall aus Der Herr der Ringe, aus dem Frodos Kettenhemd besteht?</strong>
+                <input type="text" id="6A" maxlength="7" class="crossword-input" />
+            </div>
+            <div class="question-item">
+                <strong>7. Welches Wort rufen Mogrys in Final Fantasy oft aus?</strong>
+                <input type="text" id="7A" maxlength="4" class="crossword-input" />
+            </div>
+            <div class="question-item">
+                <strong>8. Wie heißt der Mentor von Geralt, dem Witcher?</strong>
+                <input type="text" id="8A" maxlength="7" class="crossword-input" />
+            </div>
+            <div class="question-item">
+                <strong>9. Wer ist Varaz' Lieblings-Vtuber?</strong>
+                <input type="text" id="9A" maxlength="10" class="crossword-input" />
+            </div>
         </div>
 
         <button onclick="checkAnswers()">Überprüfen</button>
