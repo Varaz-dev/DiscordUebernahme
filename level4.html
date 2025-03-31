@@ -52,14 +52,7 @@
         let clicks = 0;
         let interval;
 
-        function moveBox() {
-            if (clicks >= 6) return;
-            const maxX = gameContainer.clientWidth - size;
-            const maxY = gameContainer.clientHeight - size;
-            const x = Math.random() * maxX;
-            const y = Math.random() * maxY;
-            box.style.transform = `translate(${x}px, ${y}px)`;
-        }
+       
 
         function clickBox() {
             clicks++;
