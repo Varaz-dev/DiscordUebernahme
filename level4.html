@@ -5,6 +5,7 @@
     <title>Level 4</title>
     <style>
         body { text-align: center; font-family: Arial, sans-serif; }
+        .hidden { display: none; } /* Standardmäßig verstecken */
         .wimmelbild-container { position: relative; display: inline-block; }
         .hotspot {
             position: absolute;
@@ -24,8 +25,8 @@
         function checkPassword() {
             var password = document.getElementById("password").value;
             if (password === "spark999") {
-                document.getElementById("content").style.display = "block";
-                document.getElementById("login").style.display = "none";
+                document.getElementById("content").style.display = "block"; // Zeigt das Wimmelbild
+                document.getElementById("login").style.display = "none"; // Versteckt die Passwortabfrage
             } else {
                 alert("Falsches Passwort!");
             }
@@ -52,8 +53,8 @@
         <button onclick="checkPassword()">Bestätigen</button>
     </div>
 
-    <!-- Wimmelbild-Minigame -->
-    <div id="content" style="display:none;">
+    <!-- Wimmelbild-Minigame (Startet versteckt) -->
+    <div id="content" class="hidden">
         <h2>Willkommen in Level 4!</h2>
         <p>Finde alle versteckten Hinweise!</p>
 
