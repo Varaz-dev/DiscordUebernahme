@@ -87,6 +87,12 @@
             display: none;
             font-size: 2em;
             text-shadow: 0 0 10px #00FF00;
+            margin-top: 20px;
+        }
+
+        #proceed-button {
+            display: none;
+            margin-top: 20px;
         }
     </style>
     <script>
@@ -150,6 +156,7 @@
             clearInterval(moveInterval);  // Stoppt die Bewegung
             box.style.display = "none";
             document.getElementById("password-display").style.display = "block";
+            document.getElementById("proceed-button").style.display = "inline-block"; // Zeigt den Button an
         } else {
             clearInterval(moveInterval); // Stoppe das alte Intervall
             moveInterval = setInterval(moveBox, speed); // Starte ein neues mit schnellerer Geschwindigkeit
@@ -176,9 +183,8 @@
         </div>
 
         <p id="password-display">█▓▒░ PASSWORD UNLOCKED ░▒▓█: <b>Highscore</b></p>
-    </div>
-    <br>
-    <a href="score.html">PROCEED</a>
 
+        <button id="proceed-button" onclick="window.location.href='score.html'">PROCEED</button>
+    </div>
 </body>
 </html>
