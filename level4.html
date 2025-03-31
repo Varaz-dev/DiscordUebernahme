@@ -61,13 +61,17 @@
             box.style.transform = `translate(${x}px, ${y}px)`;
         }
 
+        function endGame() {
+            clearInterval(interval);
+            box.style.display = "none";
+            message.style.display = "block";
+        }
+
         function clickBox() {
             if (clicks >= 6) return; // Verhindert zusätzliche Klicks nach Spielende
             clicks++;
             if (clicks >= 6) {
-                clearInterval(interval);
-                box.style.display = "none";
-                message.style.display = "block";
+                endGame();
                 return;
             }
             //size = Math.max(size * 0.75, 20); // Verkleinerung langsamer und Mindestgröße 20px
