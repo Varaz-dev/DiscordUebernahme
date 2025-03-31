@@ -104,7 +104,7 @@
     <script>
         function checkPassword() {
             var password = document.getElementById("password").value;
-            if (password === "spark999") {
+            if (password === "finallichtl") {
                 document.getElementById("content").style.display = "block";
                 document.getElementById("login").style.display = "none";
             } else {
@@ -114,7 +114,7 @@
 
         let clicks = 0;
         let maxClicks = 6;
-        let boxSize = 100;
+        let boxSize = 60;
         let speed = 1500;
         let gameActive = true;
         let box = null;
@@ -135,7 +135,7 @@
         function shrinkAndSpeedUp() {
             if (!gameActive) return;
             clicks++;
-            boxSize *= 0.8;
+            //boxSize *= 0.8;
             speed *= 0.85;
             box.style.width = boxSize + "px";
             box.style.height = boxSize + "px";
@@ -144,7 +144,7 @@
                 gameActive = false;
                 box.style.display = "none";
                 document.getElementById("password-display").style.display = "block";
-                document.getElementById("password-display").innerHTML = "█▓▒░ PASSWORD UNLOCKED ░▒▓█: <b>FinalLichtl</b>";
+                document.getElementById("password-display").innerHTML = "█▓▒░ PASSWORD UNLOCKED ░▒▓█: <b>Highscore</b>";
                 document.getElementById("proceed-button").style.display = "inline-block";
             }
         }
@@ -159,8 +159,8 @@
     </div>
 
     <div id="content" style="display: none;">
-        <h1>Catch the Box!</h1>
-        <p>Klicke den Kasten, bevor er zu klein und zu schnell wird!</p>
+        <h1>Catch me if you can!</h1>
+        <p>Klicke den Kasten, bevor er zu schnell wird!</p>
 
         <div id="game-container">
             <div id="moving-box" onclick="shrinkAndSpeedUp()"></div>
