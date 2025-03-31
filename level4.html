@@ -75,11 +75,11 @@
 
         #moving-box {
             position: absolute;
-            width: 100px;
-            height: 100px;
+            width: 60px;
+            height: 60px;
             background-color: #00FF00;
             cursor: pointer;
-            transition: width 0.1s, height 0.1s, left 0.2s, top 0.2s;
+            transition: left 0.2s, top 0.2s;
         }
 
         #password-display {
@@ -107,59 +107,46 @@
         }
 
         let clicks = 0;
-        let maxClicks = 6;
-        let boxSize = 60;
+        let maxClicks = 7;
         let speed = 1500;
-        let gameActive = true;
-        let moveInterval; // Speichert das Intervall
+        let moveInterval;
 
         function getRandomPosition() {
-            let maxX = window.innerWidth - boxSize;
-            let maxY = window.innerHeight - boxSize;
-            let x = Math.random() * maxX;
-            let y = Math.random() * maxY;
-            return { x, y };
+            let maxX = window.innerWidth - 60;
+            let maxY = window.innerHeight - 60;
+            return {
+                x: Math.random() * maxX,
+                y: Math.random() * maxY
+            };
         }
 
         function moveBox() {
-            if (!gameActive) return; // Falls das Spiel vorbei ist, wird nichts mehr gemacht
-            
             let box = document.getElementById("moving-box");
             let pos = getRandomPosition();
             box.style.left = pos.x + "px";
             box.style.top = pos.y + "px";
         }
 
-        // Startet das sich wiederholende Bewegen
         function startMoving() {
             moveInterval = setInterval(moveBox, speed);
         }
 
-        // Wird bei jedem Klick ausgeführt
-        function shrinkAndSpeedUp() {
-            if (!gameActive) return;
+        function speedUp() {
+            if (clicks >= maxClicks) return;
 
-            let box = document.getElementById("moving-box");
             clicks++;
-            //boxSize *= 0.8;
             speed *= 0.85;
-
-            //if (boxSize < 2) boxSize = 2;
             if (speed < 50) speed = 50;
 
-            box.style.width = boxSize + "px";
-            box.style.height = boxSize + "px";
+            clearInterval(moveInterval);
+            moveInterval = setInterval(moveBox, speed);
 
             if (clicks >= maxClicks) {
-                gameActive = false;  // Stoppt das Spiel
-                clearInterval(moveInterval);  // Stoppt die Bewegung
-                box.style.display = "none";
+                clearInterval(moveInterval);
+                document.getElementById("moving-box").style.display = "none";
                 document.getElementById("password-display").style.display = "block";
                 document.getElementById("password-display").innerHTML = "█▓▒░ PASSWORD UNLOCKED ░▒▓█: <b>FinalLichtl</b>";
-                document.getElementById("proceed-button").style.display = "inline-block"; // Zeigt den Button an
-            } else {
-                clearInterval(moveInterval); // Stoppe das alte Intervall
-                moveInterval = setInterval(moveBox, speed); // Starte ein neues mit schnellerer Geschwindigkeit
+                document.getElementById("proceed-button").style.display = "inline-block";
             }
         }
     </script>
@@ -174,10 +161,10 @@
 
     <div id="content">
         <h1>Catch me if you can!</h1>
-        <p>Klicke den Kasten 7 Mal, bevor er zu schnell wird!</p>
+        <p>Klicke die Box 7 Mal, bevor sie zu schnell wird!</p>
 
         <div id="game-container">
-            <div id="moving-box" onclick="shrinkAndSpeedUp()"></div>
+            <div id="moving-box" onclick="speedUp()"></div>
         </div>
 
         <p id="password-display"></p>
