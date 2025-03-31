@@ -66,22 +66,92 @@
             background: #00FF00;
             color: black;
         }
+
+
+        
+        .hidden {
+            display: none;
+        }
+
+        canvas {
+            background-color: black;
+            border: 2px solid #00FF00;
+        }
+
+        input, button {
+            background-color: black;
+            color: #00FF00;
+            border: 1px solid #00FF00;
+            font-family: "Courier New", monospace;
+            padding: 5px;
+        }
+
+      
+        a {
+            color: #00FF00;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        #password-reveal {
+            font-size: 20px;
+            font-weight: bold;
+            color: red;
+        }
+
+        /* Blinker-Effekt für den extra Hacker-Look */
+        .blink {
+            animation: blinker 1s infinite;
+        }
+
+        @keyframes blinker {
+            50% {
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 <body>
-    <h2>█▓▒░ Catch me if you can! ░▒▓█</h2>
+
+    <div id="login">
+        <h2>█▓▒░ LEVEL 2 ░▒▓█</h2>
+        <p><span class="cursor">ENTER PASSWORD</span></p>
+        <input type="password" id="password">
+        <button onclick="checkPassword()">ACCESS</button>
+    </div>
+
+<div id="content" class="hidden">
+       <h2>█▓▒░ Catch me if you can! ░▒▓█</h2>
     <p>Klicke auf das rote Quadrat. Schaffst du es 6 Mal?</p>
+   
     <div id="message">
         <h2>█▓▒░ CONGRATULATIONS! ░▒▓█</h2>
         <a href="score.html"><button>PROCEED</button></a>
-    </div>
+    </div> 
 
     
     <div id="gameContainer">
         <div id="box"></div>
     </div>
+
     
+    </div>
     <script>
+        function checkPassword() {
+            var password = document.getElementById("password").value;
+            if (password === "lichtlfinal") {
+                document.getElementById("content").style.display = "block";
+                document.getElementById("login").style.display = "none";
+                startGame();
+            } else {
+                alert("Falsches Passwort!");
+            }
+        }
+
+        
         const box = document.getElementById("box");
         const gameContainer = document.getElementById("gameContainer");
         const message = document.getElementById("message");
@@ -100,8 +170,8 @@
             const x = Math.random() * maxX;
             const y = Math.random() * maxY;
     
-            box.style.left = `${x}px`;
-            box.style.top = `${y}px`;
+           
+            box.style.transform = `translate(${x}px, ${y}px)`;
         }
 
         function endGame() {
@@ -119,7 +189,6 @@
                 return;
             }
             
-            //size = Math.max(size * 0.75, 20);
             speed = Math.max(speed * 0.9, 200);
             
             box.style.width = `${size}px`;
