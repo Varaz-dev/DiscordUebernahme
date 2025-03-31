@@ -30,8 +30,8 @@
         /* Bewegliches Objekt */
         #box {
             position: absolute;
-            width: 100px;
-            height: 100px;
+            width: 60px;
+            height: 60px;
             background-color: #FF0000;
             cursor: pointer;
             box-shadow: 0 0 10px #FF0000;
@@ -63,8 +63,8 @@
     </style>
 </head>
 <body>
-    <h2>█▓▒░ MINI GAME ░▒▓█</h2>
-    <p>Klicke auf das rote Quadrat, um es zu verkleinern. Schaffst du es 6 Mal?</p>
+    <h2>█▓▒░ Catch me if you can! ░▒▓█</h2>
+    <p>Klicke auf das rote Quadrat. Schaffst du es 6 Mal?</p>
     
     <div id="gameContainer">
         <div id="box"></div>
@@ -72,8 +72,8 @@
     
     <div id="message">
         <h2>█▓▒░ Herzlichen Glückwunsch! ░▒▓█</h2>
-        <p>Das Passwort lautet: <strong>FinalLichtl</strong></p>
-        <a href="score.html"><button>Weiter</button></a>
+        <p>Das Passwort lautet: <strong>highscore</strong></p>
+        <a href="score.html"><button>Highscore</button></a>
     </div>
 
     <script>
@@ -81,7 +81,7 @@
         const gameContainer = document.getElementById("gameContainer");
         const message = document.getElementById("message");
         
-        let size = 100;
+        let size = 60;
         let speed = 1000;
         let clicks = 0;
         let interval;
@@ -112,7 +112,7 @@
                 return;
             }
             
-            size = Math.max(size * 0.75, 20);
+            //size = Math.max(size * 0.75, 20);
             speed = Math.max(speed * 0.9, 200);
             
             box.style.width = `${size}px`;
