@@ -71,10 +71,11 @@
     </div>
     
     <div id="message">
-        <h2>█▓▒░ Herzlichen Glückwunsch! ░▒▓█</h2>
+        <h2>█▓▒░ CONGRATULATIONS! ░▒▓█</h2>
         <p>Das Passwort lautet: <strong>highscore</strong></p>
-        <a href="score.html"><button>Highscore</button></a>
+       
     </div>
+     <a href="score.html"><button>PROCEED</button></a>
 
     <script>
         const box = document.getElementById("box");
@@ -107,7 +108,7 @@
             if (clicks >= 6) return;
             
             clicks++;
-            if (clicks >= 6) {
+            if (clicks == 6) {
                 endGame();
                 return;
             }
