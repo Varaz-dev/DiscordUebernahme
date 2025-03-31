@@ -36,6 +36,8 @@
             position: absolute;
             width: 60px;
             height: 60px;
+            left: 0;
+            top: 0;
             background-color: #FF0000;
             cursor: pointer;
             box-shadow: 0 0 10px #FF0000;
@@ -92,12 +94,14 @@
         function moveBox() {
             if (clicks >= 6) return;
             
-            const maxX = gameContainer.clientWidth - size;
-            const maxY = gameContainer.clientHeight - size;
+            const maxX = gameContainer.clientWidth - box.clientWidth;
+            const maxY = gameContainer.clientHeight - box.clientHeight;
+    
             const x = Math.random() * maxX;
             const y = Math.random() * maxY;
-            
-            box.style.transform = `translate(${x}px, ${y}px)`;
+    
+            box.style.left = `${x}px`;
+            box.style.top = `${y}px`;
         }
 
         function endGame() {
