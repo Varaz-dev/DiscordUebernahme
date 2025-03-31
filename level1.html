@@ -40,19 +40,13 @@
         let board;
         let context;
 
-        let snakeX = blockSize * 5;
-        let snakeY = blockSize * 5;
-
-        let speedX = 0;
-        let speedY = 0;
-
-        let snakeBody = [];
-
-        let foodX;
-        let foodY;
-
-        let score = 0;
-        let maxScore = 10; // 10 Punkte für Sieg
+        let snakeX, snakeY;
+        let speedX, speedY;
+        let snakeBody;
+        let foodX, foodY;
+        let score;
+        let gameOver;
+        let maxScore = 10; 
 
         function startGame() {
             board = document.getElementById("board");
@@ -60,13 +54,26 @@
             board.width = total_col * blockSize;
             context = board.getContext("2d");
 
+            resetGame();
             placeFood();
             document.addEventListener("keydown", changeDirection);
             setInterval(update, 100);
         }
 
+        function resetGame() {
+            snakeX = blockSize * 5;
+            snakeY = blockSize * 5;
+            speedX = 0;
+            speedY = 0;
+            snakeBody = [];
+            score = 0;
+            gameOver = false;
+            document.getElementById("score").innerText = "Punkte: " + score;
+            document.getElementById("password-reveal").style.display = "none";
+        }
+
         function update() {
-            if (score >= maxScore) return;
+            if (gameOver || score >= maxScore) return;
 
             context.fillStyle = "black";
             context.fillRect(0, 0, board.width, board.height);
@@ -78,7 +85,6 @@
                 snakeBody.push([foodX, foodY]);
                 placeFood();
                 score++;
-
                 document.getElementById("score").innerText = "Punkte: " + score;
 
                 if (score >= maxScore) {
@@ -96,6 +102,13 @@
 
             snakeX += speedX * blockSize;
             snakeY += speedY * blockSize;
+
+            // Wand-Kollision = Game Over
+            if (snakeX < 0 || snakeX >= board.width || snakeY < 0 || snakeY >= board.height) {
+                gameOver = true;
+                alert("Game Over! Drücke R, um neu zu starten.");
+                return;
+            }
 
             context.fillStyle = "lime";
             context.fillRect(snakeX, snakeY, blockSize, blockSize);
@@ -121,6 +134,9 @@
                 speedX = 1;
                 speedY = 0;
             }
+            else if (e.code == "KeyR") {  
+                resetGame();
+            }
         }
 
         function placeFood() {
@@ -140,7 +156,7 @@
 
     <div id="content" class="hidden">
         <h2>Snake Game</h2>
-        <p>Steuere die Schlange mit den Pfeiltasten.</p>
+        <p>Steuere die Schlange mit den Pfeiltasten. Erreiche 10 Punkte für das Passwort! (Drücke R zum Neustart)</p>
         <p id="score">Punkte: 0</p>
         <canvas id="board"></canvas>
         <p id="password-reveal" class="hidden">Glückwunsch! Dein Passwort für Level 2: <strong>spark777</strong></p>
