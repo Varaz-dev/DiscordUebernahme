@@ -25,6 +25,10 @@
             border: 2px solid #00FF00;
             overflow: hidden;
             box-shadow: 0 0 10px #00FF00;
+            margin: 20px auto; /* Zentriert es horizontal */
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         /* Bewegliches Objekt */
@@ -65,18 +69,16 @@
 <body>
     <h2>█▓▒░ Catch me if you can! ░▒▓█</h2>
     <p>Klicke auf das rote Quadrat. Schaffst du es 6 Mal?</p>
+    <div id="message">
+        <h2>█▓▒░ CONGRATULATIONS! ░▒▓█</h2>
+        <a href="score.html"><button>PROCEED</button></a>
+    </div>
+
     
     <div id="gameContainer">
         <div id="box"></div>
     </div>
     
-    <div id="message">
-        <h2>█▓▒░ CONGRATULATIONS! ░▒▓█</h2>
-        <p>Das Passwort lautet: <strong>highscore</strong></p>
-       
-    </div>
-     <a href="score.html"><button>PROCEED</button></a>
-
     <script>
         const box = document.getElementById("box");
         const gameContainer = document.getElementById("gameContainer");
