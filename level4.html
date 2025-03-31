@@ -17,6 +17,16 @@
             text-shadow: 0 0 5px #00FF00, 0 0 10px #00FF00;
         }
 
+        @keyframes blinkCursor {
+            50% { opacity: 0; }
+        }
+
+        .blinking-cursor::after {
+            content: "|";
+            display: inline-block;
+            animation: blinkCursor 0.8s infinite;
+        }
+
         #login {
             margin-top: 20vh;
         }
@@ -53,20 +63,6 @@
             color: black;
         }
 
-        @keyframes blinkCursor {
-            50% { border-color: transparent; }
-        }
-
-        .blinking-cursor::after {
-            content: "|";
-            display: inline-block;
-            animation: blinkCursor 0.8s infinite;
-        }
-
-        #content {
-            display: none;
-        }
-
         #game-container {
             position: relative;
             width: 100vw;
@@ -79,97 +75,49 @@
             height: 60px;
             background-color: #00FF00;
             cursor: pointer;
-            transition: left 0.2s, top 0.2s;
+            transition: transform 0.2s;
         }
 
         #password-display {
             display: none;
+            margin-top: 20px;
             font-size: 2em;
             text-shadow: 0 0 10px #00FF00;
-            margin-top: 20px;
         }
 
         #proceed-button {
             display: none;
             margin-top: 20px;
+            font-size: 1.5em;
+            background: black;
+            border: 2px solid #00FF00;
+            color: #00FF00;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        #proceed-button:hover {
+            background: #00FF00;
+            color: black;
         }
     </style>
     <script>
         function checkPassword() {
             var password = document.getElementById("password").value;
-            if (password === "lichtlfinal") {
+            if (password === "spark999") {
                 document.getElementById("content").style.display = "block";
                 document.getElementById("login").style.display = "none";
-                startMoving(); // Bewegung starten, sobald das Passwort korrekt ist!
+                startMoving(); // Bewegung starten
             } else {
                 alert("ACCESS DENIED!");
             }
         }
 
         let clicks = 0;
-        let maxClicks = 7;
+        let maxClicks = 6;
         let speed = 1500;
+        let gameActive = true;
         let moveInterval;
+        let box = null;
 
-        function getRandomPosition() {
-            let maxX = window.innerWidth - 60;
-            let maxY = window.innerHeight - 60;
-            return {
-                x: Math.random() * maxX,
-                y: Math.random() * maxY
-            };
-        }
-
-        function moveBox() {
-            let box = document.getElementById("moving-box");
-            let pos = getRandomPosition();
-            box.style.left = pos.x + "px";
-            box.style.top = pos.y + "px";
-        }
-
-        function startMoving() {
-            moveInterval = setInterval(moveBox, speed);
-        }
-
-        function speedUp() {
-            if (clicks >= maxClicks) return;
-
-            clicks++;
-            speed *= 0.85;
-            if (speed < 50) speed = 50;
-
-            clearInterval(moveInterval);
-            moveInterval = setInterval(moveBox, speed);
-
-            if (clicks >= maxClicks) {
-                clearInterval(moveInterval);
-                document.getElementById("moving-box").style.display = "none";
-                document.getElementById("password-display").style.display = "block";
-                document.getElementById("password-display").innerHTML = "█▓▒░ PASSWORD UNLOCKED ░▒▓█: <b>FinalLichtl</b>";
-                document.getElementById("proceed-button").style.display = "inline-block";
-            }
-        }
-    </script>
-</head>
-<body>
-    <div id="login">
-        <h2>Level 4</h2>
-        <p>Gib das Passwort ein, um fortzufahren:</p>
-        <input type="password" id="password" class="blinking-cursor">
-        <button onclick="checkPassword()">Bestätigen</button>
-    </div>
-
-    <div id="content">
-        <h1>Catch me if you can!</h1>
-        <p>Klicke die Box 7 Mal, bevor sie zu schnell wird!</p>
-
-        <div id="game-container">
-            <div id="moving-box" onclick="speedUp()"></div>
-        </div>
-
-        <p id="password-display"></p>
-
-        <button id="proceed-button" onclick="window.location.href='score.html'">PROCEED</button>
-    </div>
-</body>
-</html>
+        function get
