@@ -3,150 +3,163 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Level 4 Pop Quiz! </title>
+    <title>Level 4 - Pop Quiz</title>
     <style>
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
         body {
-            font-family: Arial, sans-serif;
+            background-color: black;
+            color: #00FF00;
+            font-family: "Courier New", monospace;
             text-align: center;
         }
 
-        h1 {
-            font-size: 2em;
-            margin-top: 20px;
+        h1, h2, p {
+            text-shadow: 0 0 5px #00FF00, 0 0 10px #00FF00;
         }
 
-        #crossword {
-            display: inline-block;
-            margin: 20px;
-            border: 2px solid #000;
-        }
-
-        table {
-            border-collapse: collapse;
-            margin: 20px auto;
-        }
-
-        td {
-            padding: 10px;
-            border: 1px solid #000;
-        }
-
-        input[type="text"] {
-            text-align: center;
+        #login input {
+            background: black;
+            border: none;
+            color: #00FF00;
+            font-family: "Courier New", monospace;
             font-size: 1.5em;
-            width: 50px;
-            height: 50px;
+            width: 250px;
+            padding: 5px;
+            border-bottom: 2px solid #00FF00;
+            outline: none;
         }
 
-        button {
-            margin-top: 20px;
-            padding: 10px 20px;
+        #login button {
+            background: black;
+            border: 2px solid #00FF00;
+            color: #00FF00;
+            font-family: "Courier New", monospace;
             font-size: 1.2em;
+            padding: 10px;
+            margin-top: 10px;
             cursor: pointer;
         }
 
-        #result {
-            margin-top: 20px;
-            font-size: 1.5em;
+        #login input:focus, #login button:hover {
+            text-shadow: 0 0 10px #00FF00;
         }
 
-        #login {
-            text-align: center;
-            margin-top: 50px;
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 20px;
+            background-color: #00FF00;
+            animation: blink 1s infinite;
         }
 
-        #content {
+        #error-message {
+            color: red;
+            font-weight: bold;
+            margin-top: 10px;
             display: none;
-            margin-top: 20px;
         }
 
-        .questions {
+        .questions input {
+            background: black;
+            border: none;
+            color: #00FF00;
+            font-family: "Courier New", monospace;
             font-size: 1.2em;
-            margin: 20px;
-            text-align: left;
-            max-width: 500px;
-            margin: 20px auto;
+            text-align: center;
+            border-bottom: 2px solid #00FF00;
+            width: 150px;
+            padding: 5px;
         }
 
-        .question-item {
-            margin-bottom: 15px;
+        #result {
+            display: none;
+            font-size: 1.5em;
+            color: #00FF00;
+            text-shadow: 0 0 10px #00FF00;
         }
+
     </style>
 </head>
 <body>
     <!-- Passwortschutz -->
     <div id="login">
-        <h2>Level 4</h2>
-        <p>Gib das Passwort ein, um fortzufahren:</p>
+        <h2>ACCESS REQUIRED</h2>
+        <p>ENTER PASSWORD: <span class="cursor"></span></p>
         <input type="password" id="password">
-        <button onclick="checkPassword()">Bestätigen</button>
+        <br>
+        <button onclick="checkPassword()">CONFIRM</button>
+        <p id="error-message">ACCESS DENIED!</p>
     </div>
 
     <div id="content" style="display:none;">
         <h1>POP QUIZ - Level 4</h1>
-        <p>Entspurt! Mal schauen ob ihr nerdy genug sein um euren Discord zu retten! Beantworte alle Fragen richtig oder der Discord wird gelöscht MUHAHAHAHA!!</p>
+        <p>Finales Rätsel! Beantworte alle Fragen korrekt oder... GAME OVER.</p>
 
         <div class="questions">
             <div class="question-item">
-                <strong>1. Welche Stadt ist das Hauptquartier der Avengers?</strong>
-                <input type="text" id="1A" maxlength="8" class="crossword-input" />
+                <strong>1. Hauptquartier der Avengers?</strong>
+                <input type="text" id="1A" maxlength="8" />
             </div>
             <div class="question-item">
-                <strong>2. Wie heißt der Heimatplanet von Superman?</strong>
-                <input type="text" id="2A" maxlength="7" class="crossword-input" />
+                <strong>2. Heimatplanet von Superman?</strong>
+                <input type="text" id="2A" maxlength="7" />
             </div>
             <div class="question-item">
-                <strong>3. Wie heißt das erste Pokémon, das jemals entworfen wurde?</strong>
-                <input type="text" id="3A" maxlength="6" class="crossword-input" />
+                <strong>3. Erstes Pokémon?</strong>
+                <input type="text" id="3A" maxlength="6" />
             </div>
             <div class="question-item">
-                <strong>4. Wie lautet der Name des fiktiven Metalls, aus dem Wolverines Klauen bestehen?</strong>
-                <input type="text" id="4A" maxlength="10" class="crossword-input" />
+                <strong>4. Metall von Wolverines Klauen?</strong>
+                <input type="text" id="4A" maxlength="10" />
             </div>
             <div class="question-item">
-                <strong>5. Wie heißt die Göttin, die in The Legend of Zelda verehrt wird?</strong>
-                <input type="text" id="5A" maxlength="5" class="crossword-input" />
+                <strong>5. Göttin in Zelda?</strong>
+                <input type="text" id="5A" maxlength="5" />
             </div>
             <div class="question-item">
-                <strong>6. Wie heißt das wertvolle Metall aus Der Herr der Ringe, aus dem Frodos Kettenhemd besteht?</strong>
-                <input type="text" id="6A" maxlength="7" class="crossword-input" />
+                <strong>6. Metall aus Herr der Ringe?</strong>
+                <input type="text" id="6A" maxlength="7" />
             </div>
             <div class="question-item">
-                <strong>7. Welches Wort rufen Mogrys in Final Fantasy oft aus?</strong>
-                <input type="text" id="7A" maxlength="4" class="crossword-input" />
+                <strong>7. Mogry-Wort in Final Fantasy?</strong>
+                <input type="text" id="7A" maxlength="4" />
             </div>
             <div class="question-item">
-                <strong>8. Wie heißt der Mentor von Geralt, dem Witcher?</strong>
-                <input type="text" id="8A" maxlength="7" class="crossword-input" />
+                <strong>8. Witcher-Mentor?</strong>
+                <input type="text" id="8A" maxlength="7" />
             </div>
             <div class="question-item">
-                <strong>9. Wer ist Varaz' Lieblings-Vtuber?</strong>
-                <input type="text" id="9A" maxlength="10" class="crossword-input" />
+                <strong>9. Varaz' Lieblings-VTuber?</strong>
+                <input type="text" id="9A" maxlength="10" />
             </div>
         </div>
 
-        <button onclick="checkAnswers()">Überprüfen</button>
+        <button onclick="checkAnswers()">CHECK</button>
 
-        <div id="result" style="display:none;">
-            <h3>Rätsel Gelöst!</h3>
-            <p>Das lezte Passwort lautet: <b>FinalLichtl</b></p>
-            <a href="level2.html">Klicke hier</a>
+        <div id="result">
+            <h3>█▓▒░ PASSWORD UNLOCKED ░▒▓█</h3>
+            <p>Finales Passwort: <b>FinalLichtl</b></p>
+            <a href="level2.html">PROCEED</a>
         </div>
     </div>
 
     <script>
-        // Passwortschutz
         function checkPassword() {
             var password = document.getElementById("password").value;
             if (password === "lichtlfinal") {
                 document.getElementById("content").style.display = "block";
                 document.getElementById("login").style.display = "none";
             } else {
-                alert("Falsches Passwort!");
+                document.getElementById("error-message").style.display = "block";
+                setTimeout(() => {
+                    document.getElementById("error-message").style.display = "none";
+                }, 2000);
             }
         }
 
-        // Kreuzworträtsel überprüfen
         function checkAnswers() {
             const answers = {
                 1: "newyork",
@@ -161,7 +174,6 @@
             };
 
             let correctAnswers = 0;
-
             for (let i = 1; i <= 9; i++) {
                 const userAnswer = document.getElementById(i + "A").value.toLowerCase();
                 if (userAnswer === answers[i]) {
@@ -172,7 +184,7 @@
             if (correctAnswers === 9) {
                 document.getElementById("result").style.display = "block";
             } else {
-                alert("Einige Antworten sind noch falsch. Versuche es noch einmal.");
+                alert("ERROR: UNAUTHORIZED ACCESS. TRY AGAIN.");
             }
         }
     </script>
