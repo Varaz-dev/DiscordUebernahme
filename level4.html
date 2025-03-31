@@ -29,14 +29,30 @@
             height: 100px;
             background-color: #00FF00;
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: transform 0.2s, width 0.2s, height 0.2s;
         }
 
-        #password-display, #proceed-button {
+        #password-display {
             display: none;
             margin-top: 20px;
             font-size: 2em;
             text-shadow: 0 0 10px #00FF00;
+        }
+
+        #proceed-button {
+            display: none;
+            margin-top: 20px;
+            font-size: 1.5em;
+            background: black;
+            border: 2px solid #00FF00;
+            color: #00FF00;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        #proceed-button:hover {
+            background: #00FF00;
+            color: black;
         }
     </style>
     <script>
@@ -72,6 +88,7 @@
                 gameActive = false;
                 box.style.display = "none";
                 document.getElementById("password-display").style.display = "block";
+                document.getElementById("password-display").innerHTML = "█▓▒░ PASSWORD UNLOCKED ░▒▓█: <b>FinalLichtl</b>";
                 document.getElementById("proceed-button").style.display = "inline-block";
             }
         }
@@ -100,7 +117,7 @@
             <div id="moving-box" onclick="shrinkAndSpeedUp()"></div>
         </div>
 
-        <p id="password-display">█▓▒░ PASSWORD UNLOCKED ░▒▓█: <b>Highscore</b></p>
+        <p id="password-display"></p>
         <button id="proceed-button" onclick="window.location.href='score.html'">PROCEED</button>
     </div>
 </body>
