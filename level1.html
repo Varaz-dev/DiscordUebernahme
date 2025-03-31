@@ -98,7 +98,7 @@
 <body>
     <!-- Passwortschutz -->
     <div id="login">
-        <h2>Level 2</h2>
+        <h2>Level 1</h2>
         <p>Nur die <span class="blink">Elite</span> kennt das Passwort um fortzufahren:</p>
         <input type="password" id="password">
         <button onclick="checkPassword()">Bestätigen</button>
@@ -159,7 +159,7 @@
     <script>
         function checkPassword() {
             var password = document.getElementById("password").value;
-            if (password === "lichtlfinal") {
+            if (password === "1337") {
                 document.getElementById("content").style.display = "block";
                 document.getElementById("login").style.display = "none";
             } else {
