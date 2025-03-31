@@ -50,8 +50,10 @@
         let size = 100;
         let speed = 1000;
         let clicks = 0;
+        let interval;
         
         function moveBox() {
+            if (clicks >= 6) return;
             const maxX = gameContainer.clientWidth - size;
             const maxY = gameContainer.clientHeight - size;
             const x = Math.random() * maxX;
@@ -61,22 +63,23 @@
         
         function clickBox() {
             clicks++;
-            size /= 2;
-            speed *= 0.75;
-            box.style.width = `${size}px`;
-            box.style.height = `${size}px`;
             if (clicks >= 6) {
+                clearInterval(interval);
                 box.style.display = "none";
                 message.style.display = "block";
                 return;
             }
+            size /= 2;
+            speed *= 0.75;
+            box.style.width = `${size}px`;
+            box.style.height = `${size}px`;
             moveBox();
             clearInterval(interval);
             interval = setInterval(moveBox, speed);
         }
         
         box.addEventListener("click", clickBox);
-        let interval = setInterval(moveBox, speed);
+        interval = setInterval(moveBox, speed);
     </script>
 </body>
 </html>
