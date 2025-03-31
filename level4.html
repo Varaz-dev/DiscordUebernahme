@@ -42,7 +42,7 @@
     <script>
         let clicks = 0;
         let maxClicks = 6;
-        let boxSize = 100;
+        let boxSize = 60;
         let speed = 1500;
         let gameActive = true;
         let box = null;
@@ -63,7 +63,7 @@
         function shrinkAndSpeedUp() {
             if (!gameActive) return;
             clicks++;
-            boxSize *= 0.8;
+            //boxSize *= 0.8;
             speed *= 0.85;
             box.style.width = boxSize + "px";
             box.style.height = boxSize + "px";
