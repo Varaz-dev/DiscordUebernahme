@@ -2,55 +2,60 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>Level 3 – ACCESS REQUIRED</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level 4 - Hack the System</title>
     <style>
-        /* TERMINAL STYLE */
         body {
             background-color: black;
             color: #00FF00;
             font-family: "Courier New", monospace;
             text-align: center;
+            overflow: hidden;
         }
 
-        h2, p {
-            text-shadow: 0 0 5px #00FF00;
+        h1, h2, p {
+            text-shadow: 0 0 5px #00FF00, 0 0 10px #00FF00;
         }
 
-        .hidden {
-            display: none;
-        }
-
-        /* BLINKENDER CURSOR */
-        @keyframes blink {
+        @keyframes blinkCursor {
             50% { opacity: 0; }
         }
 
-        .cursor::after {
-            content: "_";
-            animation: blink 0.8s infinite;
+        .blinking-cursor::after {
+            content: "|";
+            display: inline-block;
+            animation: blinkCursor 0.8s infinite;
         }
 
-        /* TERMINAL INPUT STYLE */
-        input[type="password"] {
+        #login {
+            margin-top: 20vh;
+        }
+
+        #password {
             background: black;
-            border: 1px solid #00FF00;
+            border: 2px solid #00FF00;
             color: #00FF00;
-            font-size: 20px;
+            font-size: 1.5em;
             font-family: "Courier New", monospace;
-            text-align: center;
             padding: 5px;
+            text-align: center;
+            width: 250px;
+            display: inline-block;
+        }
+
+        #password:focus {
             outline: none;
-            width: 200px;
         }
 
         button {
             background: black;
-            border: 1px solid #00FF00;
+            border: 2px solid #00FF00;
             color: #00FF00;
-            font-size: 18px;
+            font-size: 1.5em;
+            padding: 5px 15px;
             font-family: "Courier New", monospace;
-            padding: 5px 10px;
             cursor: pointer;
+            display: inline-block;
         }
 
         button:hover {
@@ -58,56 +63,43 @@
             color: black;
         }
 
-        .wimmelbild-container {
+        #game-container {
             position: relative;
-            display: inline-block;
-            border: 2px solid #00FF00;
-            padding: 10px;
-            box-shadow: 0 0 10px #00FF00;
+            width: 100vw;
+            height: 100vh;
         }
 
-        /* HACKER HOTSPOTS */
-        .hotspot {
+        #moving-box {
             position: absolute;
-            width: 40px;
-            height: 40px;
-            /*background-color: rgba(0, 255, 0, 0.3);*/
-            border-radius: 50%;
-            cursor: default;
-            transition: 0.2s;
+            width: 100px;
+            height: 100px;
+            background-color: #00FF00;
+            cursor: pointer;
+            transition: transform 0.2s, width 0.2s, height 0.2s;
         }
 
-        
-        .hotspot.found {
-            background-color: transparent;
-            pointer-events: none;
-        }
-
-        #passwort {
+        #password-display {
             display: none;
-            font-size: 22px;
-            font-weight: bold;
-            color: #00FF00;
             margin-top: 20px;
-            text-shadow: 0 0 5px #00FF00;
+            font-size: 2em;
+            text-shadow: 0 0 10px #00FF00;
         }
 
-        .next-level {
-            display: inline-block;
+        #proceed-button {
+            display: none;
             margin-top: 20px;
-            font-size: 18px;
-            text-decoration: none;
+            font-size: 1.5em;
+            background: black;
+            border: 2px solid #00FF00;
             color: #00FF00;
-            border: 1px solid #00FF00;
-            padding: 5px 10px;
-            box-shadow: 0 0 5px #00FF00;
+            padding: 10px 20px;
+            cursor: pointer;
         }
 
-        .next-level:hover {
+        #proceed-button:hover {
             background: #00FF00;
             color: black;
         }
-
     </style>
     <script>
         function checkPassword() {
@@ -120,38 +112,62 @@
             }
         }
 
-        let gefunden = 0;
-        function hotspotGefunden(element) {
-            element.classList.add("found"); 
-            gefunden++;
+        let clicks = 0;
+        let maxClicks = 6;
+        let boxSize = 100;
+        let speed = 1500;
+        let gameActive = true;
+        let box = null;
 
-            if (gefunden === 3) {
-                document.getElementById("passwort").style.display = "block";
+        function getRandomPosition() {
+            let maxX = window.innerWidth - boxSize;
+            let maxY = window.innerHeight - boxSize;
+            return { x: Math.random() * maxX, y: Math.random() * maxY };
+        }
+
+        function moveBox() {
+            if (!gameActive) return;
+            let pos = getRandomPosition();
+            box.style.transform = `translate(${pos.x}px, ${pos.y}px)`;
+            setTimeout(moveBox, speed);
+        }
+
+        function shrinkAndSpeedUp() {
+            if (!gameActive) return;
+            clicks++;
+            boxSize *= 0.8;
+            speed *= 0.85;
+            box.style.width = boxSize + "px";
+            box.style.height = boxSize + "px";
+            
+            if (clicks >= maxClicks) {
+                gameActive = false;
+                box.style.display = "none";
+                document.getElementById("password-display").style.display = "block";
+                document.getElementById("password-display").innerHTML = "█▓▒░ PASSWORD UNLOCKED ░▒▓█: <b>FinalLichtl</b>";
+                document.getElementById("proceed-button").style.display = "inline-block";
             }
         }
     </script>
 </head>
 <body>
     <div id="login">
-        <h2>█▓▒░ SYSTEM LOGIN ░▒▓█</h2>
-        <p><span class="cursor">ENTER PASSWORD</span></p>
-        <input type="password" id="password">
-        <button onclick="checkPassword()">ACCESS</button>
+        <h2>Level 4</h2>
+        <p>Gib das Passwort ein, um fortzufahren:</p>
+        <input type="password" id="password" class="blinking-cursor">
+        <button onclick="checkPassword()">Bestätigen</button>
     </div>
 
-    <div id="content" class="hidden">
-        <h2>█▓▒░ WELCOME TO LEVEL 3 ░▒▓█</h2>
-        <p>Finde alle versteckten Schokohasen!</p>
+    <div id="content" style="display: none;">
+        <h1>Catch the Box!</h1>
+        <p>Klicke den Kasten, bevor er zu klein und zu schnell wird!</p>
 
-        <div class="wimmelbild-container">
-            <img src="nyulak1.png" alt="Wimmelbild" style="width: 800px; height: auto;">
-            <div class="hotspot" style="top: 47%; left: 86%;" onclick="hotspotGefunden(this)"></div>
-            <div class="hotspot" style="top: 81%; left: 12%;" onclick="hotspotGefunden(this)"></div>
-            <div class="hotspot" style="top: 31%; left: 30%;" onclick="hotspotGefunden(this)"></div>
+        <div id="game-container">
+            <div id="moving-box" onclick="shrinkAndSpeedUp()"></div>
         </div>
-        
-        <p id="passwort">█▓▒░ PASSWORD UNLOCKED: <strong>lichtlfinal</strong> ░▒▓█</p>
-        <br><a href="level4.html" class="next-level">NEXT LEVEL →</a>
+
+        <p id="password-display"></p>
+        <button id="proceed-button" onclick="window.location.href='score.html'">PROCEED</button>
     </div>
 </body>
 </html>
