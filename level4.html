@@ -52,7 +52,14 @@
         let clicks = 0;
         let interval;
 
-       
+        function moveBox() {
+            if (clicks >= 6) return;
+            const maxX = gameContainer.clientWidth - size;
+            const maxY = gameContainer.clientHeight - size;
+            const x = Math.random() * maxX;
+            const y = Math.random() * maxY;
+            box.style.transform = `translate(${x}px, ${y}px)`;
+        }
 
         function clickBox() {
             clicks++;
@@ -62,8 +69,8 @@
                 message.style.display = "block";
                 return;
             }
-            size = Math.max(size / 2, 1);
-            speed = Math.max(speed * 0.85, 100);
+            size = Math.max(size * 0.75, 20); // Verkleinerung langsamer und Mindestgröße 20px
+            speed = Math.max(speed * 0.9, 200); // Geschwindigkeit weniger radikal erhöhen
             box.style.width = `${size}px`;
             box.style.height = `${size}px`;
             moveBox();
