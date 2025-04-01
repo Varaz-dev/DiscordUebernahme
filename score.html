@@ -75,37 +75,36 @@
     </table>
 
    <script>
-    const scriptURL = "https://script.google.com/macros/s/AKfycbzrF5MM8djL2KtflL3K_kk0EnKwqUEE2PC-Xz6fjmvJu2zs8sh36t4Lk3WiGf5mCgJP/exec"; // Neue URL einfügen!
+    const scriptURL = "https://script.google.com/macros/s/AKfycbyMutacsswWvhH4HReUyo4kk2sLZhQK8g64d0gvCriEvtqetKhRJ7XsXx3EJphnXvs/exec"; 
 
     function saveName() {
-    let name = document.getElementById("username").value.trim();
-    let warning = document.getElementById("warning");
+        let name = document.getElementById("username").value.trim();
+        let warning = document.getElementById("warning");
 
-    if (!name) {
-        warning.textContent = "Bitte einen gültigen Namen eingeben!";
-        return;
-    }
-
-    fetch("https://script.google.com/macros/s/AKfycbzrF5MM8djL2KtflL3K_kk0EnKwqUEE2PC-Xz6fjmvJu2zs8sh36t4Lk3WiGf5mCgJP/exec", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: name })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            warning.textContent = "Name erfolgreich gespeichert!";
-            loadNames();
-        } else {
-            warning.textContent = "Fehler beim Speichern!";
+        if (!name) {
+            warning.textContent = "Bitte einen gültigen Namen eingeben!";
+            return;
         }
-    })
-    .catch(error => {
-        console.error("Fehler:", error);
-        warning.textContent = "Verbindungsfehler!";
-    });
-}
 
+        fetch(scriptURL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name: name })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                warning.textContent = "Name erfolgreich gespeichert!";
+                loadNames();
+            } else {
+                warning.textContent = "Fehler beim Speichern!";
+            }
+        })
+        .catch(error => {
+            console.error("Fehler:", error);
+            warning.textContent = "Verbindungsfehler!";
+        });
+    }
 
     function loadNames() {
         fetch(scriptURL)
@@ -115,7 +114,7 @@
                 list.innerHTML = "";
 
                 data.forEach((row, index) => {
-                    let name = row[0]; // Spalte 1 (erste Spalte)
+                    let name = row[0]; // Erste Spalte (Namen)
                     if (name) {
                         let rowHTML = `<tr>
                             <td>#${index + 1}</td>
@@ -128,8 +127,15 @@
             .catch(error => console.error("Fehler beim Laden:", error));
     }
 
+    // CORS-Preflight-Handler
+    function preflightOptions() {
+        fetch(scriptURL, { method: "OPTIONS" }).catch(error => console.warn("CORS Fehler:", error));
+    }
+
+    preflightOptions(); // Direkt beim Laden ausführen
     loadNames(); // Namen beim Start laden
 </script>
+
 
 </body>
 </html>
