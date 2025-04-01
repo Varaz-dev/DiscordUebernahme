@@ -74,54 +74,63 @@
         </tbody>
     </table>
 
-    <script>
-        const scriptURL = "https://script.google.com/macros/s/AKfycbxmA-hkm-1Od94SqplNNP4ghr0ItmjsGWK225ji9CBhAP4mFeGJGUN2m3dhr2jjRrFK/exec";
-        
+   <script>
+    const scriptURL = "https://script.google.com/macros/s/AKfycby_KjSmJVk06fbZSrny4XFte8yJ3v5Ri3EymO8vOJ7ttglfwgR_QlN4a5zYLfvUWzbJ/exec"; // Neue URL einfügen!
 
-        function saveName() {
-            let name = document.getElementById("username").value.trim();
-            let warning = document.getElementById("warning");
+    function saveName() {
+        let name = document.getElementById("username").value.trim();
+        let warning = document.getElementById("warning");
 
-            if (!name) {
-                warning.textContent = "Bitte einen gültigen Namen eingeben!";
-                return;
-            }
-
-            fetch(scriptURL, {
-                method: "POST",
-                headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: new URLSearchParams({ name: name })
-            })
-            .then(response => response.text())
-            .then(data => {
-                warning.textContent = "Erfolgreich gespeichert!";
-                document.getElementById("username").value = "";
-                loadNames();
-            })
-            .catch(error => {
-                warning.textContent = "Fehler beim Speichern!";
-                console.error(error);
-            });
+        if (!name) {
+            warning.textContent = "Bitte einen gültigen Namen eingeben!";
+            return;
         }
 
-        function loadNames() {
-            fetch(scriptURL)
+        fetch(scriptURL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name: name })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === "success") {
+                warning.style.color = "lime";
+                warning.textContent = "Erfolgreich gespeichert!";
+                loadNames(); // Liste neu laden
+            } else {
+                warning.style.color = "red";
+                warning.textContent = "Fehler beim Speichern!";
+            }
+        })
+        .catch(error => {
+            console.error("Fehler:", error);
+            warning.textContent = "Fehler beim Speichern!";
+        });
+    }
+
+    function loadNames() {
+        fetch(scriptURL)
             .then(response => response.json())
-            .then(names => {
+            .then(data => {
                 let list = document.getElementById("name-list");
                 list.innerHTML = "";
-                names.forEach((entry, index) => {
-                    let row = `<tr>
-                        <td>#${index + 1}</td>
-                        <td>${entry}</td>
-                    </tr>`;
-                    list.innerHTML += row;
+
+                data.forEach((row, index) => {
+                    let name = row[1]; // Spalte 1 (erste Spalte)
+                    if (name) {
+                        let rowHTML = `<tr>
+                            <td>#${index + 1}</td>
+                            <td>${name}</td>
+                        </tr>`;
+                        list.innerHTML += rowHTML;
+                    }
                 });
             })
-            .catch(error => console.error("Fehler beim Laden der Namen:", error));
-        }
+            .catch(error => console.error("Fehler beim Laden:", error));
+    }
 
-        window.onload = loadNames;
-    </script>
+    loadNames(); // Namen beim Start laden
+</script>
+
 </body>
 </html>
