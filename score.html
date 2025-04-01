@@ -116,7 +116,7 @@
                 list.innerHTML = "";
 
                 data.forEach((row, index) => {
-                    let name = row[1]; // Spalte 1 (erste Spalte)
+                    let name = row[0]; // Spalte 1 (erste Spalte)
                     if (name) {
                         let rowHTML = `<tr>
                             <td>#${index + 1}</td>
