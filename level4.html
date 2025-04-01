@@ -156,7 +156,7 @@
         const gameContainer = document.getElementById("gameContainer");
         const message = document.getElementById("message");
         
-        let size = 30;
+        let size = 60;
         let speed = 1000;
         let clicks = 0;
         let interval;
@@ -189,7 +189,7 @@
                 return;
             }
             
-            speed = Math.max(speed * 0.8, 200);
+            speed = Math.max(speed * 0.9, 200);
             
             box.style.width = `${size}px`;
             box.style.height = `${size}px`;
