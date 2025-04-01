@@ -134,6 +134,10 @@
       });
     });
   }
+       
+// Funktionen global machen, damit sie im HTML genutzt werden können
+window.saveName = saveName;
+window.loadNames = loadNames;
 
   // Namen beim Laden direkt abrufen
   loadNames();
