@@ -75,7 +75,7 @@
     </table>
 
    <script>
-    const scriptURL = "https://script.google.com/macros/s/AKfycbyNU_Q-eVYCNKBP944y4tiSK-BQ7OaSTTiQLfq_iUv0pZaxjQ4a11lD5vw4nceHrYiU/exec"; // Neue URL einfügen!
+    const scriptURL = "https://script.google.com/macros/s/AKfycbzrF5MM8djL2KtflL3K_kk0EnKwqUEE2PC-Xz6fjmvJu2zs8sh36t4Lk3WiGf5mCgJP/exec"; // Neue URL einfügen!
 
     function saveName() {
     let name = document.getElementById("username").value.trim();
@@ -86,7 +86,7 @@
         return;
     }
 
-    fetch("https://script.google.com/macros/s/AKfycbyNU_Q-eVYCNKBP944y4tiSK-BQ7OaSTTiQLfq_iUv0pZaxjQ4a11lD5vw4nceHrYiU/exec", {
+    fetch("https://script.google.com/macros/s/AKfycbzrF5MM8djL2KtflL3K_kk0EnKwqUEE2PC-Xz6fjmvJu2zs8sh36t4Lk3WiGf5mCgJP/exec", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: name })
