@@ -74,9 +74,10 @@
         </tbody>
     </table>
 
-    <!--  <button onclick="resetList()">Liste zurücksetzen</button> -->
-
     <script>
+        const scriptURL = "https://script.google.com/macros/s/AKfycbzut7tIMKNn7192c9FXnk6697iI1AQLG2QgSN7lRyHRXpsRzzO7qlEshXCSQvGnoCBL/exec";
+        
+
         function saveName() {
             let name = document.getElementById("username").value.trim();
             let warning = document.getElementById("warning");
@@ -86,44 +87,41 @@
                 return;
             }
 
-            // Überprüfen, ob User schon eingetragen ist
-            if (localStorage.getItem("submitted")) {
-                warning.textContent = "Du hast dich bereits verewigt!";
-                return;
-            }
-
-            // Namen speichern
-            let names = JSON.parse(localStorage.getItem("participants")) || [];
-            names.push(name);
-
-            localStorage.setItem("participants", JSON.stringify(names));
-            localStorage.setItem("submitted", "true"); // Merken, dass der User gespeichert hat
-
-            loadNames();
-        }
-
-        function loadNames() {
-            let names = JSON.parse(localStorage.getItem("participants")) || [];
-            let list = document.getElementById("name-list");
-            list.innerHTML = "";
-
-            names.forEach((entry, index) => {
-                let row = `<tr>
-                    <td>#${index + 1}</td>
-                    <td>${entry}</td>
-                </tr>`;
-                list.innerHTML += row;
+            fetch(scriptURL, {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: new URLSearchParams({ name: name })
+            })
+            .then(response => response.text())
+            .then(data => {
+                warning.textContent = "Erfolgreich gespeichert!";
+                document.getElementById("username").value = "";
+                loadNames();
+            })
+            .catch(error => {
+                warning.textContent = "Fehler beim Speichern!";
+                console.error(error);
             });
         }
 
-       /* function resetList() {
-            localStorage.removeItem("participants");
-            localStorage.removeItem("submitted");
-            loadNames();
-        } */
+        function loadNames() {
+            fetch(scriptURL)
+            .then(response => response.json())
+            .then(names => {
+                let list = document.getElementById("name-list");
+                list.innerHTML = "";
+                names.forEach((entry, index) => {
+                    let row = `<tr>
+                        <td>#${index + 1}</td>
+                        <td>${entry}</td>
+                    </tr>`;
+                    list.innerHTML += row;
+                });
+            })
+            .catch(error => console.error("Fehler beim Laden der Namen:", error));
+        }
 
-        // Laden der Teilnehmerliste beim Start
-        loadNames();
+        window.onload = loadNames;
     </script>
 </body>
 </html>
