@@ -78,35 +78,34 @@
     const scriptURL = "https://script.google.com/macros/s/AKfycbyNU_Q-eVYCNKBP944y4tiSK-BQ7OaSTTiQLfq_iUv0pZaxjQ4a11lD5vw4nceHrYiU/exec"; // Neue URL einfügen!
 
     function saveName() {
-        let name = document.getElementById("username").value.trim();
-        let warning = document.getElementById("warning");
+    let name = document.getElementById("username").value.trim();
+    let warning = document.getElementById("warning");
 
-        if (!name) {
-            warning.textContent = "Bitte einen gültigen Namen eingeben!";
-            return;
-        }
-
-        fetch(scriptURL, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name: name })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === "success") {
-                warning.style.color = "lime";
-                warning.textContent = "Erfolgreich gespeichert!";
-                loadNames(); // Liste neu laden
-            } else {
-                warning.style.color = "red";
-                warning.textContent = "Fehler beim Speichern!";
-            }
-        })
-        .catch(error => {
-            console.error("Fehler:", error);
-            warning.textContent = "Fehler beim Speichern!";
-        });
+    if (!name) {
+        warning.textContent = "Bitte einen gültigen Namen eingeben!";
+        return;
     }
+
+    fetch("https://script.google.com/macros/s/AKfycbyNU_Q-eVYCNKBP944y4tiSK-BQ7OaSTTiQLfq_iUv0pZaxjQ4a11lD5vw4nceHrYiU/exec", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: name })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            warning.textContent = "Name erfolgreich gespeichert!";
+            loadNames();
+        } else {
+            warning.textContent = "Fehler beim Speichern!";
+        }
+    })
+    .catch(error => {
+        console.error("Fehler:", error);
+        warning.textContent = "Verbindungsfehler!";
+    });
+}
+
 
     function loadNames() {
         fetch(scriptURL)
